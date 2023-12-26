@@ -71,6 +71,18 @@ TileMap::~TileMap()
 	this->clear();
 }
 
+const bool TileMap::tileEmpty(const int x, const int y, const int z) const
+{
+	if (x >= 0 && x < this->maxSizeWorldF.x &&
+		y >= 0 && y < this->maxSizeWorldF.y &&
+		z >= 0 && z < this->layers)
+	{
+		return this->map[x][y][z].empty();
+	}
+
+	return false;
+}
+
 //Accesors
 const sf::Texture* TileMap::getTileSheet() const
 {
@@ -221,25 +233,25 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 
 	this->layer = 0;
 
-	this->fromX = gridPosition.x - 15;
+	this->fromX = gridPosition.x - 50;
 	if (this->fromX < 0)
 		this->fromX = 0;
 	else if (this->fromX > this->maxSizeWorldGrid.x)
 		this->fromX = this->maxSizeWorldGrid.x;
 
-	this->toX = gridPosition.x + 16;
+	this->toX = gridPosition.x + 50;
 	if (this->toX < 0)
 		this->toX = 0;
 	else if (this->toX > this->maxSizeWorldGrid.x)
 		this->toX = this->maxSizeWorldGrid.x;
 
-	this->fromY = gridPosition.y - 9;
+	this->fromY = gridPosition.y - 50;
 	if (this->fromY < 0)
 		this->fromY = 0;
 	else if (this->fromY > this->maxSizeWorldGrid.y)
 		this->fromY = this->maxSizeWorldGrid.y;
 
-	this->toY = gridPosition.y + 11;
+	this->toY = gridPosition.y + 50;
 	if (this->toY < 0)
 		this->toY = 0;
 	else if (this->toY > this->maxSizeWorldGrid.y)

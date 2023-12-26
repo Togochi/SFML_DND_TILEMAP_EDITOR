@@ -28,6 +28,7 @@ private:
     bool collision;
     short type;
     int layer;
+    bool tileAddLock;
 
     //Functions
     void initVariables();

@@ -19,6 +19,8 @@ public:
 	std::stack<State*>* states;
 };
 
+
+
 class State
 {
 private:

@@ -11,14 +11,14 @@ void MainMenuState::initFonts()
 {
 	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
-		throw ("ERROR::MAINMENUSTATE::INITFONTS: could not load font");
+		throw ("ERROR::MAINMENUSTATE::INITFONTS:COULD NOT LOAD FONT");
 	}
 }
 
 void MainMenuState::initKeybinds()
 {
 
-	std::ifstream ifs("Config/main_menu_keybinds.txt");
+	std::ifstream ifs("Config/mainmenustate_keybinds.ini");
 	if (ifs.is_open())
 	{
 		std::string key = "";
@@ -106,7 +106,6 @@ MainMenuState::MainMenuState(StateData* state_data)
 	this->initFonts();
 	this->initKeybinds();
 	this->initGui();
-	this->resetGui();
 
 }
 
@@ -135,7 +134,7 @@ void MainMenuState::updateButtons()
 		it.second->update(this->mousePosWindow);
 	}
 
-	//New game
+	//Game mode
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
 		this->states->push(new GameState(this->stateData));
@@ -164,6 +163,7 @@ void MainMenuState::updateButtons()
 void MainMenuState::update(const float& dt)
 {
 	this->updateMousePositions();
+
 	this->updateInput(dt);
 
 	this->updateButtons();

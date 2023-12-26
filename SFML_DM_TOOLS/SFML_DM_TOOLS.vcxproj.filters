@@ -27,10 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="fragment_shader.frag" />
-    <None Include="stdafx.h.gch" />
-    <None Include="text.slmp" />
-    <None Include="vertex_shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

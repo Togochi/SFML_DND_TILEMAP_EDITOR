@@ -131,11 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="fragment_shader.frag" />
     <None Include="packages.config" />
-    <None Include="stdafx.h.gch" />
-    <None Include="text.slmp" />
-    <None Include="vertex_shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorState.cpp">

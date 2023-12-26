@@ -170,10 +170,6 @@ void SettingsState::updateGui(const float & dt)
 	{
 		//TEST REMOVE LATER
 		this->stateData->gfxSettings->resolution = this->modes[this->dropDownLists["RESOLUTION"]->getActiveElementId()];
-
-		this->window->create(this->stateData->gfxSettings->resolution, this->stateData->gfxSettings->title, sf::Style::Default);
-
-		this->resetGui();
 	}
 
 	//Dropdown lists
@@ -188,6 +184,7 @@ void SettingsState::updateGui(const float & dt)
 void SettingsState::update(const float& dt)
 {
 	this->updateMousePositions();
+	this->updateKeytime(dt);
 	this->updateInput(dt);
 
 	this->updateGui(dt);

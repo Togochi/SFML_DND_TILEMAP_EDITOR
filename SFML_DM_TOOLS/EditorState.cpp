@@ -10,6 +10,7 @@ void EditorState::initVariables()
 	this->type = TileTypes::DEFAULT;
 	this->cameraSpeed = 1000.f;
 	this->layer = 0;
+	this->tileAddLock = false;
 }
 
 void EditorState::initView()
@@ -31,7 +32,7 @@ void EditorState::initFonts()
 {
 	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
-		std::cerr << "ERROR::EditorState::INITFONTS: could not load font";
+		std::cerr << "ERROR::EditorState::INITFONTS: COULD NOT LOAD FONT";
 	}
 }
 
@@ -144,20 +145,20 @@ void EditorState::upateEditorInput(const float& dt)
 {
 
 	//Move view
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))) && this->getKeytime())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
 	{
-		this->view.move(0.f, -(this->cameraSpeed * dt));
+		this->view.move(0.f, -this->cameraSpeed * dt);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))) && this->getKeytime())
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
 	{
 		this->view.move(0.f, this->cameraSpeed * dt);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))) && this->getKeytime())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
 	{
-		this->view.move(-(this->cameraSpeed * dt), 0.f);
+		this->view.move(-this->cameraSpeed * dt, 0.f);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))) && this->getKeytime())
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))) )
 	{
 		this->view.move(this->cameraSpeed * dt, 0.f);
 	}
@@ -169,7 +170,16 @@ void EditorState::upateEditorInput(const float& dt)
 		{
 			if (!this->textureSelector->getActive())
 			{
-				this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->collision, this->type);
+				if (this->tileAddLock)
+				{
+					if (this->tileMap->tileEmpty(this->mousePosGrid.x, this->mousePosGrid.y, 0))
+						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->collision, this->type);
+				}
+				else
+				{
+					this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->collision, this->type);
+				}
+
 			}
 			else
 			{
@@ -203,6 +213,16 @@ void EditorState::upateEditorInput(const float& dt)
 		if (this->type > 0)
 			--this->type;
 	}
+
+	//Set lock on / off
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TILE_LOCK"))) && this->getKeytime())
+	{
+		if (this->tileAddLock)
+			this->tileAddLock = false;
+		else
+			this->tileAddLock = true;
+	}
+
 }
 
 void EditorState::updateButtons()
@@ -231,7 +251,8 @@ void EditorState::updateGui(const float& dt)
 		<< this->textureRect.left << ' ' << this->textureRect.top << '\n'
 		<< "Collision: " << this->collision << '\n'
 		<< "Type: " << this->type << '\n'
-		<< "Tiles: " << this->tileMap->getLayerSize(this->mousePosGrid.x, this->mousePosGrid.y, this->layer);
+		<< "Tiles: " << this->tileMap->getLayerSize(this->mousePosGrid.x, this->mousePosGrid.y, this->layer) << '\n'
+		<< "Tile lock: " << this->tileAddLock;
 
 	this->cursorText.setString(ss.str());
 }
