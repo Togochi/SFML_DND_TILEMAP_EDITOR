@@ -11,6 +11,7 @@ void Game::initVariables()
 	this->dt = 0.f;
 
 	this->gridSize = 64.f;
+
 }
 
 void Game::initGraphicsSettings()
@@ -84,6 +85,7 @@ Game::Game()
 
 Game::~Game()
 {
+	delete this->textbox;
 	delete this->window;
 
 	while (!this->states.empty())
@@ -108,10 +110,16 @@ void Game::updateDt()
 
 void Game::updateSFMLEvents()
 {
+
 	while (this->window->pollEvent(this->sfEvent))
 	{
-		if (this->sfEvent.type == sf::Event::Closed)
-			this->window->close();
+		while (this->window->pollEvent(this->sfEvent))
+		{
+			if (this->sfEvent.type == sf::Event::Closed)
+				this->window->close();
+			else if (this->sfEvent.type == sf::Event::TextEntered)
+				this->states.top()->textBox(this->sfEvent);
+		}
 	}
 }
 
@@ -144,10 +152,14 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
-
 	//Render items
+
+
 	if (!this->states.empty())
+	{
 		this->states.top()->render();
+	}
+
 
 	this->window->display();
 }

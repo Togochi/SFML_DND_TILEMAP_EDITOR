@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include "GraphicsSettings.h"
+#include "Gui.h"
 
 class GraphicsSettings;
 class State;
@@ -26,6 +27,10 @@ class State
 private:
 
 protected:
+
+	gui::TextBox* textbox1;
+	sf::Font font;
+
 	StateData* stateData;
 	std::stack<State*>* states;
 	sf::RenderWindow* window;
@@ -57,6 +62,7 @@ public:
 	const bool getKeytime();
 
 	//Functions	
+	void textBox(sf::Event input);
 	void endState(); 
 	void pauseState();
 	void unpauseState();

@@ -162,7 +162,7 @@ void GameState::render(sf::RenderTarget* target)
 	this->renderTexture.clear();
 
 	this->renderTexture.setView(this->view);
-	this->tileMap->render(this->renderTexture, this->mousePosGrid, false);
+	this->tileMap->render(this->renderTexture, this->mousePosGrid, true);
 
 	//Render GUI
 	this->renderTexture.setView(this->renderTexture.getDefaultView());

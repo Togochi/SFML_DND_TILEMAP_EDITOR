@@ -5,6 +5,7 @@
 
 void MainMenuState::initVariables()
 {
+
 }
 
 void MainMenuState::initFonts()
@@ -61,7 +62,7 @@ void MainMenuState::initGui()
 	this->buttons["GAME_STATE"] = new gui::Button(
 		gui::p2pX(15.6f, vm), gui::p2pY(30.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
-		&this->font, "New Game", gui::calcCharSize(vm),
+		&this->font, "Game mode", gui::calcCharSize(vm),
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
@@ -75,7 +76,7 @@ void MainMenuState::initGui()
 	this->buttons["EDITOR_STATE"] = new gui::Button(
 		gui::p2pX(15.6f, vm), gui::p2pY(50.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
-		&this->font, "Editor", gui::calcCharSize(vm),
+		&this->font, "Map editor", gui::calcCharSize(vm),
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
@@ -89,6 +90,7 @@ void MainMenuState::initGui()
 
 void MainMenuState::resetGui()
 {
+	delete this->textbox1;
 	auto it = this->buttons.begin();
 	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
 	{
@@ -111,6 +113,7 @@ MainMenuState::MainMenuState(StateData* state_data)
 
 MainMenuState::~MainMenuState()
 {
+	delete this->textbox1;
 	auto it = this->buttons.begin();
 	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
 	{
@@ -176,6 +179,8 @@ void MainMenuState::renderButtons(sf::RenderTarget& target)
 	{
 		it.second->render(target);
 	}
+
+	this->textbox1->render(target);
 }
 
 void MainMenuState::render(sf::RenderTarget* target)

@@ -12,6 +12,16 @@ State::State(StateData* state_data)
 	this->keytime = 0.f;
 	this->keytimeMax = 10.f;
 	this->gridSize = state_data->gridSize;
+
+	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	{
+		throw ("ERROR::MAINMENUSTATE::INITFONTS:COULD NOT LOAD FONT");
+	}
+
+	this->textbox1 = new gui::TextBox(15, sf::Color::White, true);
+	this->textbox1->setFont(this->font);
+
+	this->textbox1->setPosition(sf::Vector2f(1000.f, 100.f));
 }
 
 State::~State()
@@ -34,6 +44,13 @@ const bool State::getKeytime()
 	}
 
 	return false;
+}
+
+void State::textBox(sf::Event input)
+{
+	this->textbox1->typedOn(input);
+
+	std::cout << textbox1->getText();
 }
 
 //Functions

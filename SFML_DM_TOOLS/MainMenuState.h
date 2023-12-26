@@ -11,6 +11,7 @@ class MainMenuState :
 {
 private:
 	//Variables
+
 	sf::Texture backgroundTexture;
 	sf::RectangleShape background;
 	sf::Font font;

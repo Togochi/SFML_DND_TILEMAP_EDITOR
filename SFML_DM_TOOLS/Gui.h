@@ -113,29 +113,141 @@ namespace gui
 		void render(sf::RenderTarget& target);
 	};
 
-	class ProgressBar
+
+
+	class TextBox
 	{
 	private:
-		std::string barString;
-		sf::Text text;
-		float maxWidth;
-		sf::RectangleShape back;
-		sf::RectangleShape inner;
+
+		sf::Text textbox;
+		std::ostringstream text;
+		bool isSelected = false;
+		bool hasLimit = false;
+		int limit;
+
+		void deleteLastChar() {
+			std::string t = text.str();
+			std::string newT = "";
+
+			for (int i = 0; i < t.length() - 1; ++i)
+			{
+				newT += t[i];
+			}
+			text.str("");
+			text << newT;
+
+			textbox.setString(text.str());
+		}
+
+		void InputLogic(int charTyped)
+		{
+			if (charTyped != sf::Keyboard::Delete && charTyped != sf::Keyboard::Enter && charTyped != sf::Keyboard::Escape)
+			{
+				text << static_cast<char> (charTyped);
+			}
+			else if (charTyped == sf::Keyboard::Delete)
+			{
+				if (text.str().length() > 0)
+				{
+					deleteLastChar();
+				}
+			}
+
+			textbox.setString(text.str() + "_");
+		}
 
 	public:
-		ProgressBar(float x, float y, float width, float height,
-			sf::Color inner_color, unsigned character_size,
-			sf::VideoMode& vm, sf::Font* font = NULL);
-		~ProgressBar();
+		TextBox() {};
+
+		TextBox(int size, sf::Color color, bool is_selected) {
+			this->textbox.setCharacterSize(size);
+			this->textbox.setFillColor(color);
+			this->isSelected = is_selected;
+
+			if (is_selected)
+			{
+				textbox.setString("_");
+			} 
+			else
+			{
+				textbox.setString("");
+			}
+		};
+		virtual ~TextBox() {};
 
 		//Accessors
 
+		std::string getText()
+		{
+			return text.str();
+		}
+
 		//Modifiers
 
+		void setFont(sf::Font& font)
+		{
+			this->textbox.setFont(font);
+		}
+
+		void setPosition(sf::Vector2f position)
+		{	
+			this->textbox.setPosition(position);
+		}
+
+		void setLimit(bool ToF)
+		{
+			this->hasLimit = ToF;
+		}
+
+		void setLimit(bool ToF, int limit)
+		{
+			this->hasLimit = ToF;
+			this->limit = limit;
+		}
+
+		void setSelected(bool is_selected)
+		{
+			this->isSelected = is_selected;
+			if (!is_selected)
+			{
+				std::string t = text.str();
+				std::string newT = "";
+
+				for (int i = 0; i < t.length() - 1; ++i)
+				{
+					newT += t[i];
+				}
+				this->textbox.setString(newT);
+			}
+		}
+
 		//Functions
-		void update(const int current_value, const int max_value);
-		void render(sf::RenderTarget & target);
+
+		void typedOn(sf::Event input) {
+			if (isSelected)
+			{
+				int charTyped = input.text.unicode;
+				if (charTyped < 128)
+				{
+					if (hasLimit)
+					{
+						if (text.str().length() <= this->limit)
+							this->InputLogic(charTyped);
+						else if (text.str().length() > this->limit && charTyped == sf::Keyboard::Delete)
+							this->deleteLastChar();
+					}
+					else
+						this->InputLogic(charTyped);
+				}
+			}
+		
+		}
+
+		void render(sf::RenderTarget& target)
+		{
+			target.draw(textbox);
+		}
 	};
-}
+};
 
 #endif

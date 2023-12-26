@@ -7,6 +7,11 @@ class Game
 {
 private:
 	//Variables
+
+	gui::TextBox* textbox;
+	sf::Font font;
+
+
 	GraphicsSettings gfxSettings;
 	StateData stateData;
 	sf::RenderWindow *window;
