@@ -44,7 +44,7 @@ public:
 	int loadFileNumber();
 	void saveFileNumber(int fileNumber);
 
-	void saveToFile();
+	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);
 
 	void update();

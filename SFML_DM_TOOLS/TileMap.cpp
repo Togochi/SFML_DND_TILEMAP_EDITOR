@@ -27,8 +27,11 @@ void TileMap::clear()
 	//std::cout << this->map.size() << '\n';
 }
 
+
+
 TileMap::TileMap(float gridSize, int width, int height, std::string texture_file)
 {
+
 	this->gridSizeF = gridSize;
 	this->gridSizeI = static_cast<int> (this->gridSizeF);
 	this->maxSizeWorldGrid.x = width;
@@ -131,7 +134,7 @@ void TileMap::saveFileNumber(int fileNumber)
 	}
 }
 
-void TileMap::saveToFile()
+void TileMap::saveToFile(const std::string file_name)
 {
 	/*Save the entire tilemap to a text file.
 	Format:
@@ -146,10 +149,13 @@ void TileMap::saveToFile()
 	collision
 	type
 	*/
-	static int fileNumber = loadFileNumber();
-	std::string file_name = "Map" + std::to_string(fileNumber) + ".txt";
+
+	/*static int fileNumber = loadFileNumber();
+	std::string file_name = "map" + std::to_string(fileNumber) + ".txt";
 	fileNumber++;
-	saveFileNumber(fileNumber);
+	saveFileNumber(fileNumber);*/
+
+
 
 	std::ofstream out_file(file_name);
 
@@ -190,6 +196,7 @@ void TileMap::saveToFile()
 
 void TileMap::loadFromFile(const std::string file_name)
 {
+	
 	std::ifstream in_file(file_name);
 
 	if (in_file.is_open())

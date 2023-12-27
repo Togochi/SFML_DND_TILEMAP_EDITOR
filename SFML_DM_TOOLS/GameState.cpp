@@ -68,7 +68,7 @@ void GameState::initPauseMenu()
 void GameState::initTileMap()
 {
 	this->tileMap = new TileMap(this->stateData->gridSize, 200, 200, "Resources/Images/Tiles/tilesheet3.png");
-	this->tileMap->loadFromFile("test.slmp");
+	//this->tileMap->loadFromFile(*this->window);
 }
 
 
@@ -86,8 +86,13 @@ GameState::GameState(StateData* state_data)
 
 GameState::~GameState()
 {
-	delete this->textbox1;
 }
+
+//GameState::~GameState()
+//{
+//	delete this->textbox1;
+//	std::cout << "TEXTBOX DELETE!" << '\n';
+//}
 
 void GameState::updateGameInput(const float& dt)
 {
@@ -135,11 +140,19 @@ void GameState::updateTileMap(const float& dt)
 
 void GameState::updatePauseMenuButtons()
 {
+
+	const std::string file_name = "def";
+
 	if (this->pmenu->isButtonPressed("QUIT"))
 		this->endState();
 
 	if (this->pmenu->isButtonPressed("LOAD"))
-		this->tileMap->loadFromFile("test.slmp");
+	{
+		const std::string file_name = this->textbox1->getText();
+		std::cout << file_name;
+		this->tileMap->loadFromFile(file_name);
+	}
+	
 }
 
 void GameState::update(const float& dt)
@@ -147,10 +160,11 @@ void GameState::update(const float& dt)
 	this->updateMousePositions(&this->view);
 	this->updateKeytime(dt);
 	this->updateInput(dt);
+	this->textbox1->update(this->mousePosWindow, dt);
 
 	if (!this->paused)
 	{
-		this->textbox1->update(this->mousePosWindow, dt);
+		
 		this->updateGameInput(dt);
 		this->updateTileMap(dt);
 	}
@@ -180,6 +194,7 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		this->renderTexture.setView(this->renderTexture.getDefaultView());
 		this->pmenu->render(this->renderTexture);
+		this->textbox1->render(this->renderTexture);
 	}
 
 	//Final render

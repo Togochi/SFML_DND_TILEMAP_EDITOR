@@ -20,13 +20,17 @@ State::State(StateData* state_data)
 
 	this->textbox1 = new gui::TextBox(20, sf::Color::White, false, 0.f, 0.f, this->font);
 	this->textbox1->setFont(this->font);
+	
+	this->textbox1->setPosition(sf::Vector2f(10.f, 80.f));
 
-	this->textbox1->setPosition(sf::Vector2f(10.f, 150.f));
+	std::cout << "TEXTBOX CREATE!" << '\n';
 	
 }
 
 State::~State()
 {
+	delete this->textbox1;
+	std::cout << "TEXTBOX DELETE!" << '\n';
 }
 
 //Accessors

@@ -126,8 +126,6 @@ EditorState::~EditorState()
 	delete this->pmenu;
 	delete this->tileMap;
 	delete this->textureSelector;
-
-
 }
 
 
@@ -261,16 +259,24 @@ void EditorState::updateGui(const float& dt)
 
 void EditorState::updatePauseMenuButtons()
 {
+	const std::string file_name = "";
+
 	if (this->pmenu->isButtonPressed("QUIT"))
 		this->endState();
 
 	if (this->pmenu->isButtonPressed("SAVE") && this->getKeytime())
 	{
-		this->tileMap->saveToFile();
+		const std::string file_name = this->textbox1->getText();
+		std::cout << file_name;
+		this->tileMap->saveToFile(file_name);
 	}
 
 	if (this->pmenu->isButtonPressed("LOAD") && this->getKeytime())
-		this->tileMap->loadFromFile("test.slmp");
+	{
+		const std::string file_name = this->textbox1->getText();
+		this->tileMap->loadFromFile(file_name);
+	}
+		
 }
 
 
@@ -279,6 +285,7 @@ void EditorState::update(const float& dt)
 	this->updateMousePositions(&this->view);
 	this->updateKeytime(dt);
 	this->updateInput(dt);
+	this->textbox1->update(this->mousePosWindow, dt);
 
 	if (!this->paused)
 	{
@@ -338,6 +345,7 @@ void EditorState::render(sf::RenderTarget* target)
 	{
 		target->setView(this->window->getDefaultView());
 		this->pmenu->render(*target);
+		this->textbox1->render(*target);
 	
 	}
 }

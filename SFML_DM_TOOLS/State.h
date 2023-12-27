@@ -55,7 +55,7 @@ protected:
 
 public:
 	State(StateData* state_data);
-	virtual ~State();
+	~State();
 
 
 	//Accessors

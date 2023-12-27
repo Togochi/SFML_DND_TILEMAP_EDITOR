@@ -45,7 +45,7 @@ private:
     void initTileMap();
 public:
     EditorState(StateData* state_data);
-    virtual ~EditorState();
+     ~EditorState();
 
 
     //Functions

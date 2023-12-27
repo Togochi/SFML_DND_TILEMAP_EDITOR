@@ -31,7 +31,7 @@ private:
     void initTileMap();  
 public:
     GameState(StateData* state_data);
-    virtual ~GameState();
+    ~GameState();
 
 
     //Functions
