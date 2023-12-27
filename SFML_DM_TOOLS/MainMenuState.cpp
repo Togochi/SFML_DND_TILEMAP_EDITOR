@@ -168,6 +168,7 @@ void MainMenuState::update(const float& dt)
 	this->updateMousePositions();
 
 	this->updateInput(dt);
+	this->textbox1->update(this->mousePosWindow);
 
 	this->updateButtons();
 

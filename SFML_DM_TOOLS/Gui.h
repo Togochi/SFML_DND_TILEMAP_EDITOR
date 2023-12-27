@@ -125,11 +125,16 @@ namespace gui
 		bool hasLimit = false;
 		int limit;
 
+		gui::Button* save_btn;
+
+		float keytime;
+		const float keytimeMax;
+
 		void deleteLastChar() {
 			std::string t = text.str();
 			std::string newT = "";
 
-			for (int i = 0; i < t.length() - 1; ++i)
+			for (int i = 0; i < t.length() - 1; i++)
 			{
 				newT += t[i];
 			}
@@ -141,28 +146,39 @@ namespace gui
 
 		void InputLogic(int charTyped)
 		{
-			if (charTyped != sf::Keyboard::Delete && charTyped != sf::Keyboard::Enter && charTyped != sf::Keyboard::Escape)
+
+			if (charTyped != 8 && charTyped != 46 && charTyped != 27)
 			{
 				text << static_cast<char> (charTyped);
 			}
-			else if (charTyped == sf::Keyboard::Delete)
+			else if (charTyped == 8)
 			{
 				if (text.str().length() > 0)
 				{
 					deleteLastChar();
 				}
 			}
+			if (charTyped == 13)
+			{
+				text << "\n";
+			}
+
 
 			textbox.setString(text.str() + "_");
 		}
 
 	public:
-		TextBox() {};
+		
 
-		TextBox(int size, sf::Color color, bool is_selected) {
+		TextBox(int size, sf::Color color, bool is_selected, 
+			float x, float y, sf::Font& font) 
+		: keytimeMax(1.f), keytime(0.f) 
+		{
 			this->textbox.setCharacterSize(size);
 			this->textbox.setFillColor(color);
 			this->isSelected = is_selected;
+			this->hasLimit = false;
+			this->limit = 100;
 
 			if (is_selected)
 			{
@@ -172,6 +188,13 @@ namespace gui
 			{
 				textbox.setString("");
 			}
+
+			this->save_btn = new gui::Button(
+				y, x, 100.f, 50.f,
+				&font, "Save", 24,
+				sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 250), sf::Color(255, 255, 255, 50),
+				sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 250), sf::Color(20, 20, 20, 50)
+			);
 		};
 		virtual ~TextBox() {};
 
@@ -180,6 +203,22 @@ namespace gui
 		std::string getText()
 		{
 			return text.str();
+		}
+
+		const bool getKeytime()
+		{
+			if (this->keytime >= this->keytimeMax)
+			{
+				this->keytime = 0.f;
+				return true;
+			}
+
+			return false;
+		}
+		void updateKeytime(const float& dt)
+		{
+			if (this->keytime < this->keytimeMax)
+				this->keytime += 10.f * dt;
 		}
 
 		//Modifiers
@@ -233,19 +272,34 @@ namespace gui
 					{
 						if (text.str().length() <= this->limit)
 							this->InputLogic(charTyped);
-						else if (text.str().length() > this->limit && charTyped == sf::Keyboard::Delete)
+						else if (text.str().length() > this->limit && charTyped == 8)
 							this->deleteLastChar();
+						else if (charTyped == 13)
+							text << "\n";
 					}
 					else
-						this->InputLogic(charTyped);
+					{
+							this->InputLogic(charTyped);
+					}
 				}
 			}
 		
 		}
 
+		void update(const sf::Vector2i& mousePosWindow)
+		{
+			this->save_btn->update(mousePosWindow);
+
+			if (this->save_btn->isPressed() && this->getKeytime())
+			{
+				
+			}
+		}
+
 		void render(sf::RenderTarget& target)
 		{
 			target.draw(textbox);
+			this->save_btn->render(target);
 		}
 	};
 };

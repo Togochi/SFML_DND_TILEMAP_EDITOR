@@ -286,6 +286,8 @@ void EditorState::update(const float& dt)
 	{
 		this->pmenu->update(this->mousePosWindow);
 		this->updatePauseMenuButtons();
+
+		this->textbox1->update(this->mousePosWindow);
 	}
 
 }
@@ -296,6 +298,7 @@ void EditorState::renderButtons(sf::RenderTarget& target)
 	{
 		it.second->render(target);
 	}
+
 }
 
 void EditorState::renderGui(sf::RenderTarget& target)
@@ -321,6 +324,7 @@ void EditorState::render(sf::RenderTarget* target)
 	{
 		target = this->window;
 	}
+
 	target->setView(this->view);
 	this->tileMap->render(*target, this->mousePosGrid, true);
 
@@ -332,6 +336,7 @@ void EditorState::render(sf::RenderTarget* target)
 	{
 		target->setView(this->window->getDefaultView());
 		this->pmenu->render(*target);
+		this->textbox1->render(*target);
 	}
 }
 

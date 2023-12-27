@@ -2,6 +2,10 @@
 #define GAME_H
 
 #include "MainMenuState.h"
+#include "EditorState.h"
+
+class MainMenuState;
+class EditorState;
 
 class Game
 {

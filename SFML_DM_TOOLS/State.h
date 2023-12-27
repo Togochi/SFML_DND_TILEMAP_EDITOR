@@ -13,6 +13,8 @@ public:
 	StateData() {};
 
 	//Variables
+
+	bool saveOptionSelected;
 	float gridSize;
 	sf::RenderWindow* window;
 	GraphicsSettings* gfxSettings;
@@ -47,6 +49,7 @@ protected:
 	sf::Vector2f mousePosView;
 	sf::Vector2i mousePosGrid;
 
+
 	//Resources
 	std::map<std::string, sf::Texture> textures;
 
@@ -56,6 +59,7 @@ protected:
 public:
 	State(StateData* state_data);
 	virtual ~State();
+
 
 	//Accessors
 	const bool& getQuit() const;

@@ -12,13 +12,14 @@ State::State(StateData* state_data)
 	this->keytime = 0.f;
 	this->keytimeMax = 10.f;
 	this->gridSize = state_data->gridSize;
+	this->stateData->saveOptionSelected = false;
 
 	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
 		throw ("ERROR::MAINMENUSTATE::INITFONTS:COULD NOT LOAD FONT");
 	}
 
-	this->textbox1 = new gui::TextBox(15, sf::Color::White, true);
+	this->textbox1 = new gui::TextBox(24, sf::Color::White, true, 200.f, 1000.f, this->font);
 	this->textbox1->setFont(this->font);
 
 	this->textbox1->setPosition(sf::Vector2f(1000.f, 100.f));
