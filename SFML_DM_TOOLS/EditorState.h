@@ -11,6 +11,8 @@ class EditorState :
 {
 private:
     //Variables
+
+
     sf::View view;
 
     sf::Font font;
@@ -44,6 +46,7 @@ private:
 public:
     EditorState(StateData* state_data);
     virtual ~EditorState();
+
 
     //Functions
     void updateInput(const float& dt);

@@ -2,6 +2,7 @@
 #include "TileMap.h"
 
 
+
 void TileMap::clear()
 {
 	for (int x = 0; x < this->maxSizeWorldGrid.x; x++)
@@ -108,7 +109,29 @@ const int TileMap::getLayerSize(const int x, const int y, const int layer) const
 
 //Functions
 
-void TileMap::saveToFile(const std::string file_name)
+int TileMap::loadFileNumber()
+{
+	int fileNumber = 0;
+	std::ifstream file("fileNumber.txt");
+	if (file.is_open())
+	{
+		file >> fileNumber;
+		file.close();
+	}
+	return fileNumber;
+}
+
+void TileMap::saveFileNumber(int fileNumber)
+{
+	std::ofstream file("fileNumber.txt");
+	if (file.is_open())
+	{
+		file << fileNumber;
+		file.close();
+	}
+}
+
+void TileMap::saveToFile()
 {
 	/*Save the entire tilemap to a text file.
 	Format:
@@ -123,6 +146,10 @@ void TileMap::saveToFile(const std::string file_name)
 	collision
 	type
 	*/
+	static int fileNumber = loadFileNumber();
+	std::string file_name = "Map" + std::to_string(fileNumber) + ".txt";
+	fileNumber++;
+	saveFileNumber(fileNumber);
 
 	std::ofstream out_file(file_name);
 

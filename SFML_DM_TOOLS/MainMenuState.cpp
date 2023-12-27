@@ -90,7 +90,7 @@ void MainMenuState::initGui()
 
 void MainMenuState::resetGui()
 {
-	delete this->textbox1;
+	
 	auto it = this->buttons.begin();
 	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
 	{
@@ -113,7 +113,6 @@ MainMenuState::MainMenuState(StateData* state_data)
 
 MainMenuState::~MainMenuState()
 {
-	delete this->textbox1;
 	auto it = this->buttons.begin();
 	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
 	{
@@ -168,7 +167,6 @@ void MainMenuState::update(const float& dt)
 	this->updateMousePositions();
 
 	this->updateInput(dt);
-	this->textbox1->update(this->mousePosWindow);
 
 	this->updateButtons();
 
@@ -180,8 +178,6 @@ void MainMenuState::renderButtons(sf::RenderTarget& target)
 	{
 		it.second->render(target);
 	}
-
-	this->textbox1->render(target);
 }
 
 void MainMenuState::render(sf::RenderTarget* target)

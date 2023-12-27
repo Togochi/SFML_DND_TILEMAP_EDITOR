@@ -85,7 +85,6 @@ Game::Game()
 
 Game::~Game()
 {
-	delete this->textbox;
 	delete this->window;
 
 	while (!this->states.empty())
@@ -118,7 +117,7 @@ void Game::updateSFMLEvents()
 			if (this->sfEvent.type == sf::Event::Closed)
 				this->window->close();
 			else if (this->sfEvent.type == sf::Event::TextEntered)
-				this->states.top()->textBox(this->sfEvent);
+				this->states.top()->callingTextInput(sfEvent);
 		}
 	}
 }

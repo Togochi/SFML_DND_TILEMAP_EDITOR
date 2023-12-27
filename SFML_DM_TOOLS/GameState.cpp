@@ -5,6 +5,7 @@
 void GameState::initVariables()
 {
 	this->cameraSpeed = 500.f;
+
 }
 
 void GameState::initKeybinds()
@@ -85,33 +86,39 @@ GameState::GameState(StateData* state_data)
 
 GameState::~GameState()
 {
-	
+	delete this->textbox1;
 }
 
 void GameState::updateGameInput(const float& dt)
 {
-	//Move view
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
+	if (!this->textbox1->getSelect())
 	{
-		this->view.move(0.f, -(this->cameraSpeed * dt));
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
-	{
-		this->view.move(0.f, this->cameraSpeed * dt);
-	}
+		//Move view
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
+		{
+			this->view.move(0.f, -(this->cameraSpeed * dt));
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
+		{
+			this->view.move(0.f, this->cameraSpeed * dt);
+		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))) )
-	{
-		this->view.move(-(this->cameraSpeed * dt), 0.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
+		{
+			this->view.move(-(this->cameraSpeed * dt), 0.f);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))))
+		{
+			this->view.move(this->cameraSpeed * dt, 0.f);
+		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))))
-	{
-		this->view.move(this->cameraSpeed * dt, 0.f);
-	}
+	
 }
 
 void GameState::updateInput(const float& dt)
 {
+
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))) && this->getKeytime())
 	{
 		if (!this->paused)
@@ -143,6 +150,7 @@ void GameState::update(const float& dt)
 
 	if (!this->paused)
 	{
+		this->textbox1->update(this->mousePosWindow, dt);
 		this->updateGameInput(dt);
 		this->updateTileMap(dt);
 	}
@@ -166,6 +174,7 @@ void GameState::render(sf::RenderTarget* target)
 
 	//Render GUI
 	this->renderTexture.setView(this->renderTexture.getDefaultView());
+	this->textbox1->render(this->renderTexture);
 
 	if (this->paused)
 	{
@@ -177,6 +186,7 @@ void GameState::render(sf::RenderTarget* target)
 	this->renderTexture.display();
 	this->renderSprite.setTexture(this->renderTexture.getTexture());
 	target->draw(this->renderSprite);
+
 }
 
 

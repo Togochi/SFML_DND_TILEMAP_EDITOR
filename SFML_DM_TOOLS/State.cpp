@@ -12,22 +12,21 @@ State::State(StateData* state_data)
 	this->keytime = 0.f;
 	this->keytimeMax = 10.f;
 	this->gridSize = state_data->gridSize;
-	this->stateData->saveOptionSelected = false;
 
 	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
 		throw ("ERROR::MAINMENUSTATE::INITFONTS:COULD NOT LOAD FONT");
 	}
 
-	this->textbox1 = new gui::TextBox(24, sf::Color::White, true, 200.f, 1000.f, this->font);
+	this->textbox1 = new gui::TextBox(20, sf::Color::White, false, 0.f, 0.f, this->font);
 	this->textbox1->setFont(this->font);
 
-	this->textbox1->setPosition(sf::Vector2f(1000.f, 100.f));
+	this->textbox1->setPosition(sf::Vector2f(10.f, 150.f));
+	
 }
 
 State::~State()
 {
-	
 }
 
 //Accessors
@@ -47,13 +46,6 @@ const bool State::getKeytime()
 	return false;
 }
 
-void State::textBox(sf::Event input)
-{
-	this->textbox1->typedOn(input);
-
-	std::cout << textbox1->getText();
-}
-
 //Functions
 void State::endState()
 {
@@ -68,6 +60,11 @@ void State::pauseState()
 void State::unpauseState()
 {
 	this->paused = false;
+}
+
+void State::callingTextInput(sf::Event input)
+{
+	this->textbox1->typedOn(input);
 }
 
 void State::updateMousePositions(sf::View* view)

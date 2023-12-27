@@ -121,7 +121,7 @@ namespace gui
 
 		sf::Text textbox;
 		std::ostringstream text;
-		bool isSelected = false;
+		bool isSelected;
 		bool hasLimit = false;
 		int limit;
 
@@ -147,7 +147,7 @@ namespace gui
 		void InputLogic(int charTyped)
 		{
 
-			if (charTyped != 8 && charTyped != 46 && charTyped != 27)
+			if (charTyped != 8 && charTyped != 27)
 			{
 				text << static_cast<char> (charTyped);
 			}
@@ -158,11 +158,14 @@ namespace gui
 					deleteLastChar();
 				}
 			}
-			if (charTyped == 13)
+			if (charTyped == 13) //Clicking on enter takes you to a new line
 			{
 				text << "\n";
 			}
-
+			else if (charTyped == 9) // Clicking on the tab deletes the text
+			{
+				text.str("");
+			}
 
 			textbox.setString(text.str() + "_");
 		}
@@ -190,19 +193,26 @@ namespace gui
 			}
 
 			this->save_btn = new gui::Button(
-				y, x, 100.f, 50.f,
-				&font, "Save", 24,
-				sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 250), sf::Color(255, 255, 255, 50),
+				y, x, 300.f, 60.f,
+				&font, "Text typing mode \n Press\"Tab\" to delete the entire text", 20,
+				sf::Color::White, sf::Color::White, sf::Color::White,
 				sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 250), sf::Color(20, 20, 20, 50)
 			);
 		};
-		virtual ~TextBox() {};
+		virtual ~TextBox() {
+			delete this->save_btn;
+		};
 
 		//Accessors
 
 		std::string getText()
 		{
 			return text.str();
+		}
+
+		const bool getSelect()
+		{
+			return this->isSelected;
 		}
 
 		const bool getKeytime()
@@ -251,8 +261,8 @@ namespace gui
 			{
 				std::string t = text.str();
 				std::string newT = "";
-
-				for (int i = 0; i < t.length() - 1; ++i)
+				
+				for (int i = 0; i < t.length(); ++i)
 				{
 					newT += t[i];
 				}
@@ -286,13 +296,19 @@ namespace gui
 		
 		}
 
-		void update(const sf::Vector2i& mousePosWindow)
+		void update(const sf::Vector2i& mousePosWindow, const float & dt)
 		{
+			this->updateKeytime(dt);
 			this->save_btn->update(mousePosWindow);
 
 			if (this->save_btn->isPressed() && this->getKeytime())
 			{
 				
+				if (this->isSelected)
+					this->setSelected(false);
+				else
+					this->setSelected(true);
+		
 			}
 		}
 

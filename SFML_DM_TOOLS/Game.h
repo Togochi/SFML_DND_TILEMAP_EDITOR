@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "MainMenuState.h"
-#include "EditorState.h"
+#include "GameState.h"
 
 class MainMenuState;
 class EditorState;
@@ -11,10 +11,7 @@ class Game
 {
 private:
 	//Variables
-
-	gui::TextBox* textbox;
 	sf::Font font;
-
 
 	GraphicsSettings gfxSettings;
 	StateData stateData;

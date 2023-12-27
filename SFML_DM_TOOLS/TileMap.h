@@ -41,7 +41,10 @@ public:
 
 	//Function
 
-	void saveToFile(const std::string file_name);
+	int loadFileNumber();
+	void saveFileNumber(int fileNumber);
+
+	void saveToFile();
 	void loadFromFile(const std::string file_name);
 
 	void update();

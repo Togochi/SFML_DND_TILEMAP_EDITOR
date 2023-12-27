@@ -13,8 +13,6 @@ public:
 	StateData() {};
 
 	//Variables
-
-	bool saveOptionSelected;
 	float gridSize;
 	sf::RenderWindow* window;
 	GraphicsSettings* gfxSettings;
@@ -30,9 +28,8 @@ private:
 
 protected:
 
-	gui::TextBox* textbox1;
 	sf::Font font;
-
+	gui::TextBox* textbox1;
 	StateData* stateData;
 	std::stack<State*>* states;
 	sf::RenderWindow* window;
@@ -66,10 +63,10 @@ public:
 	const bool getKeytime();
 
 	//Functions	
-	void textBox(sf::Event input);
 	void endState(); 
 	void pauseState();
 	void unpauseState();
+	void callingTextInput(sf::Event input);
 	
 	virtual void updateMousePositions(sf::View* view = NULL);
 	virtual void updateKeytime(const float& dt);
