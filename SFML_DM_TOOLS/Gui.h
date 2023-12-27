@@ -193,10 +193,11 @@ namespace gui
 			}
 
 			this->save_btn = new gui::Button(
-				y, x, 300.f, 60.f,
-				&font, "Text typing mode \n Press\"Tab\" to delete the entire text", 20,
+				y, x, 820.f, 60.f,
+				&font, "Click here to switch the mode to text input and back. Before saving or uploading a file, enter the full name of the file in the input mode. \n Press\"Tab\" to delete the entire text", 
+				16,
 				sf::Color::White, sf::Color::White, sf::Color::White,
-				sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 250), sf::Color(20, 20, 20, 50)
+				sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 250), sf::Color(20, 20, 20, 50)
 			);
 		};
 		virtual ~TextBox() {
