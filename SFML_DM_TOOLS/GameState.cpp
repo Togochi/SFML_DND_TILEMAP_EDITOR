@@ -135,7 +135,6 @@ void GameState::updateTileMap(const float& dt)
 void GameState::updatePauseMenuButtons()
 {
 
-	const std::string file_name = "def";
 
 	if (this->pmenu->isButtonPressed("QUIT"))
 		this->endState();
@@ -143,7 +142,6 @@ void GameState::updatePauseMenuButtons()
 	if (this->pmenu->isButtonPressed("LOAD"))
 	{
 		const std::string file_name = this->textbox1->getText();
-		std::cout << file_name;
 		this->tileMap->loadFromFile(file_name);
 	}
 	

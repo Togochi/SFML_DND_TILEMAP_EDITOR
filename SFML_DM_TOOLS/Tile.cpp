@@ -8,7 +8,9 @@ Tile::Tile()
 }
 
 Tile::Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect,
-	bool fill, short type)
+	sf::Font& font, std::string str,
+	bool fill, short type, bool char_contains):
+	font(font), str(str)
 {
 	this->shape.setPosition(static_cast<float> (grid_x) * gridSizeF, static_cast<float> (grid_y) * gridSizeF);
 	this->shape.setTexture(texture);
@@ -22,11 +24,27 @@ Tile::Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, 
 
 	this->fill = fill;
 	this->type = type;
+	this->charContains = char_contains;
+
+	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	{
+		std::cerr << "TILE::ERROR::INITFONTS: COULD NOT LOAD FONT";
+	}
+
+	if (char_contains)
+	{
+
+		this->text.setFont(this->font);
+		this->text.setCharacterSize(24);
+		this->text.setFillColor(sf::Color::White);
+		this->text.setPosition((static_cast<float> (grid_x) * gridSizeF)+1.f, static_cast<float> (grid_y) * gridSizeF);
+		this->text.setString(this->str);
+	}
+	
 }
 
 Tile::~Tile()
 {
-
 }
 
 const short& Tile::getType() const
@@ -38,6 +56,12 @@ const bool& Tile::isFill() const
 {
 	return this->fill;
 }
+
+const bool& Tile::isCharContains() const
+{
+	return this->charContains;
+}
+
 
 const sf::Vector2f& Tile::getPosition() const
 {
@@ -58,7 +82,8 @@ const std::string Tile::getAsString() const
 {
 	std::stringstream ss;
 
-	ss << this->shape.getTextureRect().left << " " << this->shape.getTextureRect().top << " " << this->fill << " " << this->type;
+	ss << this->shape.getTextureRect().left << " " << this->shape.getTextureRect().top << " " << 
+		this->fill << " " << this->type << " " << this->charContains << " " << this->str;
 
 	return ss.str();
 }
@@ -82,5 +107,8 @@ void Tile::render(sf::RenderTarget& target)
 {
 		target.draw(this->shape);
 		target.draw(this->contour);
-
+		if (this->charContains)
+		{
+			target.draw(this->text);
+		}
 }

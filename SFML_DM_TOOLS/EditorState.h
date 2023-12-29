@@ -17,6 +17,7 @@ private:
 
     sf::Font font;
     sf::Text cursorText;
+    sf::Text nullText;
     PauseMenu* pmenu;
     TileMap* tileMap;
 
@@ -31,6 +32,7 @@ private:
     short type;
     int layer;
     bool tileAddLock;
+    bool charContains;
 
     //Functions
     void initVariables();

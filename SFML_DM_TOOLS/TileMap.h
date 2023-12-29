@@ -14,6 +14,7 @@ private:
 	float gridSizeF;
 	int gridSizeI;
 	int layers;
+	sf::Font font;
 	sf::Vector2i maxSizeWorldGrid;
 	sf::Vector2f maxSizeWorldF;
 	std::vector<std::vector < std::vector < std::vector <Tile*> > > > map;
@@ -49,7 +50,7 @@ public:
 	void render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 		const bool show_collision = false);
 
-	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& fill, const short& type);
+	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& fill, const short& type, const bool& char_contains, sf::Font& font, std::string str);
 	void removeTile(const int x, const int y, const int z);
 
 };

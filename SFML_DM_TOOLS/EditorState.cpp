@@ -203,11 +203,28 @@ void EditorState::upateEditorInput(const float& dt)
 				if (this->tileAddLock)
 				{
 					if (this->tileMap->tileEmpty(this->mousePosGrid.x, this->mousePosGrid.y, 0))
-						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type);
+						if (this->charContains)
+						{
+							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, this->textbox1->getText());
+							std::cout << this->textbox1->getText();
+						}
+						else
+						{
+							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, "_");
+						}
+
 				}
 				else
 				{
-					this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type);
+					if (this->charContains)
+					{
+						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, this->textbox1->getText());
+						std::cout << this->textbox1->getText();
+					}
+					else
+					{
+						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, "_");
+					}
 				}
 
 			}
@@ -237,12 +254,21 @@ void EditorState::upateEditorInput(const float& dt)
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INCREASE_TYPE"))) && this->getKeytime())
 	{
-		++this->type;
+		if (this->type < 8)
+			++this->type;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("DECREASE_TYPE"))) && this->getKeytime())
 	{
 		if (this->type > 0)
 			--this->type;
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TEXT"))) && this->getKeytime())
+	{
+		if (this->charContains)
+			this->charContains = false;
+		else
+			this->charContains = true;
 	}
 
 	//Set lock on / off
@@ -283,6 +309,7 @@ void EditorState::updateGui(const float& dt)
 		<< "Fill: " << this->fill << '\n'
 		<< "Type: " << this->enumToString(this->type) << '\n'
 		<< "Tiles: " << this->tileMap->getLayerSize(this->mousePosGrid.x, this->mousePosGrid.y, this->layer) << '\n'
+		<< "Text: " << this->charContains << '\n'
 		<< "Tile lock: " << this->tileAddLock;
 
 	this->cursorText.setString(ss.str());
@@ -298,7 +325,6 @@ void EditorState::updatePauseMenuButtons()
 	if (this->pmenu->isButtonPressed("SAVE") && this->getKeytime())
 	{
 		const std::string file_name = this->textbox1->getText();
-		std::cout << file_name;
 		this->tileMap->saveToFile(file_name);
 	}
 

@@ -61,6 +61,11 @@ TileMap::TileMap(float gridSize, int width, int height, std::string texture_file
 		}
 	}
 
+	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	{
+		std::cerr << "TILE::TILEMAP::INITFONTS: COULD NOT LOAD FONT";
+	}
+
 	if (!this->tileSheet.loadFromFile(texture_file))
 		std::cerr << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET::FILENAME: " << texture_file << '\n';
 
@@ -68,6 +73,7 @@ TileMap::TileMap(float gridSize, int width, int height, std::string texture_file
 	this->collisionBox.setFillColor(sf::Color(255, 0, 0, 50));
 	this->collisionBox.setOutlineColor(sf::Color::Red);
 	this->collisionBox.setOutlineThickness(1.f);
+
 }
 
 TileMap::~TileMap()
@@ -149,6 +155,7 @@ void TileMap::saveToFile(const std::string file_name)
 						{
 							out_file << x << " " << y << " " << z << " "
 								<< this->map[x][y][z][k]->getAsString() << " ";
+
 						}
 					}
 				}
@@ -166,7 +173,7 @@ void TileMap::saveToFile(const std::string file_name)
 
 void TileMap::loadFromFile(const std::string file_name)
 {
-	
+
 	std::ifstream in_file(file_name);
 
 	if (in_file.is_open())
@@ -182,6 +189,8 @@ void TileMap::loadFromFile(const std::string file_name)
 		unsigned trY = 0;
 		bool fill = false;
 		short type = 0;
+		bool char_contains = false;
+		std::string str = "";
 
 
 		//Basics
@@ -214,17 +223,23 @@ void TileMap::loadFromFile(const std::string file_name)
 			std::cerr << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET::FILENAME: " << texture_file << '\n';
 
 		//Load all 
-		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type)
+		
+		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type >> char_contains >> str)
 		{
+
+			std::cout << str << '\n';
 			this->map[x][y][z].push_back(new Tile(x, y,
 				this->gridSizeF,
 				this->tileSheet,
 				sf::IntRect(trX, trY, this->gridSizeI, this->gridSizeI),
+				this->font, str,
 				fill,
-				type));
-		}
+				type,
+				char_contains));
 
-		in_file.close();
+		}
+			in_file.close();
+		
 	}
 }
 
@@ -336,7 +351,8 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 }
 
 
-void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& collision, const short& type)
+void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& collision, const short& type,
+	const bool& char_contains, sf::Font& font, std::string str)
 {
 	//Add a tile if its index fits into the size of the map
 
@@ -346,7 +362,7 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 	{
 
 		//Can add a tile
-		this->map[x][y][z].push_back(new Tile(x, y, this->gridSizeF, this->tileSheet, texture_rect, collision, type));
+		this->map[x][y][z].push_back(new Tile(x, y, this->gridSizeF, this->tileSheet, texture_rect, this->font, str, collision, type, char_contains));
 
 	}
 }

@@ -13,18 +13,26 @@ protected:
 	sf::Sprite shape;
 	sf::RectangleShape contour;
 	bool fill;
+	bool charContains;
 	short type;
+
+	sf::Text text;
+	sf::Font font;
+	std::string str;
 
 public:
 	Tile();
 	Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect,
-		bool fill = false, short type = TileTypes::DEFAULT);
+		sf::Font& font, std::string str,
+		bool fill = false, short type = TileTypes::DEFAULT, bool char_contains = false);
 	virtual ~Tile();
 
 	//Accessors
 	const short& getType() const;
 	const bool& isFill() const;
-
+	const bool& isCharContains() const;
+	
+	const std::string getText() const;
 	const sf::Vector2f& getPosition() const;
 	const sf::FloatRect getGlobalBounds() const;
 	const std::string getAsString() const;

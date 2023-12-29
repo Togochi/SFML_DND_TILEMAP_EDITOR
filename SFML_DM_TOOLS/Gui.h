@@ -211,6 +211,11 @@ namespace gui
 			return text.str();
 		}
 
+		sf::Text getTextbox()
+		{
+			return this->textbox;
+		}
+
 		const bool getSelect()
 		{
 			return this->isSelected;
