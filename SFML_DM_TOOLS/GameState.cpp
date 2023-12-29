@@ -67,8 +67,7 @@ void GameState::initPauseMenu()
 
 void GameState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 200, 200, "Resources/Images/Tiles/tilesheet3.png");
-	//this->tileMap->loadFromFile(*this->window);
+	this->tileMap = new TileMap(this->stateData->gridSize, 1000, 1000, "Resources/Images/Tiles/tilesheet.png");
 }
 
 
@@ -88,11 +87,6 @@ GameState::~GameState()
 {
 }
 
-//GameState::~GameState()
-//{
-//	delete this->textbox1;
-//	std::cout << "TEXTBOX DELETE!" << '\n';
-//}
 
 void GameState::updateGameInput(const float& dt)
 {

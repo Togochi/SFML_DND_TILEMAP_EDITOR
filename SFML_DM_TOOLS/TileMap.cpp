@@ -112,28 +112,6 @@ const int TileMap::getLayerSize(const int x, const int y, const int layer) const
 
 //Functions
 
-int TileMap::loadFileNumber()
-{
-	int fileNumber = 0;
-	std::ifstream file("fileNumber.txt");
-	if (file.is_open())
-	{
-		file >> fileNumber;
-		file.close();
-	}
-	return fileNumber;
-}
-
-void TileMap::saveFileNumber(int fileNumber)
-{
-	std::ofstream file("fileNumber.txt");
-	if (file.is_open())
-	{
-		file << fileNumber;
-		file.close();
-	}
-}
-
 void TileMap::saveToFile(const std::string file_name)
 {
 	/*Save the entire tilemap to a text file.
@@ -146,17 +124,9 @@ void TileMap::saveToFile(const std::string file_name)
 	All tiles:
 	gridPos x y (all tiles)
 	textute rect x, y
-	collision
+	fill
 	type
 	*/
-
-	/*static int fileNumber = loadFileNumber();
-	std::string file_name = "map" + std::to_string(fileNumber) + ".txt";
-	fileNumber++;
-	saveFileNumber(fileNumber);*/
-
-
-
 	std::ofstream out_file(file_name);
 
 	if (out_file.is_open())
@@ -210,7 +180,7 @@ void TileMap::loadFromFile(const std::string file_name)
 		unsigned z = 0;
 		unsigned trX = 0;
 		unsigned trY = 0;
-		bool collision = false;
+		bool fill = false;
 		short type = 0;
 
 
@@ -244,13 +214,13 @@ void TileMap::loadFromFile(const std::string file_name)
 			std::cerr << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET::FILENAME: " << texture_file << '\n';
 
 		//Load all 
-		while (in_file >> x >> y >> z >> trX >> trY >> collision >> type)
+		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type)
 		{
 			this->map[x][y][z].push_back(new Tile(x, y,
 				this->gridSizeF,
 				this->tileSheet,
 				sf::IntRect(trX, trY, this->gridSizeI, this->gridSizeI),
-				collision,
+				fill,
 				type));
 		}
 
@@ -297,19 +267,67 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 		{
 			for (int k = 0; k < this->map[x][y][this->layer].size(); k++)
 			{
-				
-				
-				this->map[x][y][this->layer][k]->render(target);
 
-
-				if (show_collision)
+				if (this->map[x][y][this->layer][k]->getType() != TileTypes::DEFAULT)
 				{
-					if (this->map[x][y][this->layer][k]->getCollision())
+					switch (this->map[x][y][this->layer][k]->getType())
 					{
-						this->collisionBox.setPosition(this->map[x][y][this->layer][k]->getPosition());
-						target.draw(this->collisionBox);
+					case TileTypes::RED:
+
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 0, 0, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Red);
+						break;
+					case TileTypes::GREEN:
+						if(this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(0, 255, 0, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Green);
+						break;
+					case TileTypes::BLUE:
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(27, 42, 207, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Blue);
+						break;
+					case TileTypes::YELLOW:
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 255, 0, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Yellow);
+						break;
+					case TileTypes::WHITE:
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 255, 255, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::White);
+						break;
+					case TileTypes::ORANGE:
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 165, 0, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color(255, 165, 0, 255));
+						break;
+					case TileTypes::GREY:
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(128, 128, 128, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color(128, 128, 128, 255));
+						break;
+					case TileTypes::PURPLE:
+						if (this->map[x][y][this->layer][k]->isFill())
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(148, 0, 211, 90));
+						else
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Magenta);
+						break;
+					default:
+						this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Black);
+						break;
 					}
 				}
+				
+				this->map[x][y][this->layer][k]->render(target);
 			}
 
 		}
@@ -344,7 +362,7 @@ void TileMap::removeTile(const int x, const int y, const int z)
 			//Can remove a tile
 			delete this->map[x][y][z][this->map[x][y][z].size() - 1];
 			this->map[x][y][z].pop_back();
-			std::cout << "DEBUG: REMOVE A TILE!" << '\n';
+			/*std::cout << "DEBUG: REMOVE A TILE!" << '\n';*/
 		}
 	}
 

@@ -27,7 +27,7 @@ private:
     sf::RectangleShape sidebar;
 
     float cameraSpeed;
-    bool collision;
+    bool fill;
     short type;
     int layer;
     bool tileAddLock;

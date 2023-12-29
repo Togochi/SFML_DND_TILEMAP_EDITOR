@@ -6,7 +6,7 @@
 void EditorState::initVariables()
 {
 	this->textureRect = sf::IntRect(0, 0, static_cast<int> (this->stateData->gridSize), static_cast<int> (this->stateData->gridSize));
-	this->collision = false;
+	this->fill = false;
 	this->type = TileTypes::DEFAULT;
 	this->cameraSpeed = 1000.f;
 	this->layer = 0;
@@ -98,7 +98,7 @@ void EditorState::initButtons()
 
 void EditorState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 200, 200, "Resources/Images/Tiles/tilesheet3.png");
+	this->tileMap = new TileMap(this->stateData->gridSize, 1000, 1000, "Resources/Images/Tiles/tilesheet.png");
 }
 
 EditorState::EditorState(StateData* state_data)
@@ -173,11 +173,11 @@ void EditorState::upateEditorInput(const float& dt)
 				if (this->tileAddLock)
 				{
 					if (this->tileMap->tileEmpty(this->mousePosGrid.x, this->mousePosGrid.y, 0))
-						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->collision, this->type);
+						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type);
 				}
 				else
 				{
-					this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->collision, this->type);
+					this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type);
 				}
 
 			}
@@ -197,12 +197,12 @@ void EditorState::upateEditorInput(const float& dt)
 		}
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_COLLISION"))) && this->getKeytime())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_FILL"))) && this->getKeytime())
 	{
-		if (this->collision)
-			this->collision = false;
+		if (this->fill)
+			this->fill = false;
 		else
-			this->collision = true;
+			this->fill = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INCREASE_TYPE"))) && this->getKeytime())
 	{
@@ -249,7 +249,7 @@ void EditorState::updateGui(const float& dt)
 	ss << this->mousePosView.x << ' ' << this->mousePosView.y << '\n'
 		<< this->mousePosGrid.x << ' ' << this->mousePosGrid.y << '\n'
 		<< this->textureRect.left << ' ' << this->textureRect.top << '\n'
-		<< "Collision: " << this->collision << '\n'
+		<< "Fill: " << this->fill << '\n'
 		<< "Type: " << this->type << '\n'
 		<< "Tiles: " << this->tileMap->getLayerSize(this->mousePosGrid.x, this->mousePosGrid.y, this->layer) << '\n'
 		<< "Tile lock: " << this->tileAddLock;

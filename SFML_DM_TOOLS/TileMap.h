@@ -41,9 +41,6 @@ public:
 
 	//Function
 
-	int loadFileNumber();
-	void saveFileNumber(int fileNumber);
-
 	void saveToFile(const std::string file_name);
 	void loadFromFile(const std::string file_name);
 
@@ -52,7 +49,7 @@ public:
 	void render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 		const bool show_collision = false);
 
-	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& collision, const short& type);
+	void addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& fill, const short& type);
 	void removeTile(const int x, const int y, const int z);
 
 };

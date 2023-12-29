@@ -60,12 +60,12 @@ void SettingsState::initGui()
 		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
 		sf::Color(100, 100, 100, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
-	this->buttons["APPLY"] = new gui::Button(
-		gui::p2pX(60.f, vm), gui::p2pY(81.5f, vm),
-		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
-		&this->font, "Apply", gui::calcCharSize(vm),
-		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
-		sf::Color(100, 100, 100, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
+	//this->buttons["APPLY"] = new gui::Button(
+	//	gui::p2pX(60.f, vm), gui::p2pY(81.5f, vm),
+	//	gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
+	//	&this->font, "Apply", gui::calcCharSize(vm),
+	//	sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+	//	sf::Color(100, 100, 100, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	//Modes
 	std::vector<std::string> modes_str;
@@ -74,21 +74,22 @@ void SettingsState::initGui()
 		modes_str.push_back(std::to_string(i.width) + 'x' + std::to_string(i.height));
 	}
 
-	//Drop down lists
-	this->dropDownLists["RESOLUTION"] = new gui::DropDownList(
-		gui::p2pX(42.f, vm), gui::p2pY(42.f, vm),
-		gui::p2pX(10.4f, vm), gui::p2pY(4.5f, vm),
-		font, modes_str.data(), modes_str.size()
-	);
 
 	//Text init
 	this->optionsText.setFont(this->font);
-	this->optionsText.setPosition(sf::Vector2f(gui::p2pX(5.2f, vm), gui::p2pY(41.7f, vm)));
-	this->optionsText.setCharacterSize(gui::calcCharSize(vm, 70));
+	this->optionsText.setPosition(sf::Vector2f(10.f, 10.f));
+	this->optionsText.setCharacterSize(18);
 	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
 
 	this->optionsText.setString(
-		"Resolution \n\nFullscreen \n\nVsync \n\nAntialiasing \n\n "
+		"To configure the graphics, go to Config/graphics.ini and go to the settings: " 
+		"\n - title \n - resolution.width / resolution.height\n - Full screen mode(0 - off, 1 - on) \n - Frame rate limitation\n - vertical synchronization(0 - off, 1 - on)"
+		"\n\nTo enter text in game mode, use the button in the upper left corner of the screen.\n In editor mode, this option is available only in the menu (press Escape)."
+		"\nTo delete all the entered text, you can press Tab."
+		"\n\nTo save or download any file, first call the text input mode. " 
+		"\nEnter the full name of the file you are uploading or creating and use the mouse to select the desired command in the menu (press Escape)."
+		"\nExample: test1.txt"
+		""
 	);
 }
 
@@ -165,18 +166,16 @@ void SettingsState::updateGui(const float & dt)
 		this->endState();
 	}
 
-	//Apply selected settings
-	if (this->buttons["APPLY"]->isPressed())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))) && this->getKeytime())
 	{
-		//TEST REMOVE LATER
-		this->stateData->gfxSettings->resolution = this->modes[this->dropDownLists["RESOLUTION"]->getActiveElementId()];
+		this->endState();
 	}
-
-	//Dropdown lists
-	for (auto &it : this->dropDownLists)
-	{
-		it.second->update(this->mousePosWindow, dt);
-	}
+	////Apply selected settings
+	//if (this->buttons["APPLY"]->isPressed())
+	//{
+	//
+	//	this->stateData->gfxSettings->resolution = this->modes[this->dropDownLists["RESOLUTION"]->getActiveElementId()];
+	//}
 
 	//Dropdown lists functionality
 }
@@ -197,10 +196,6 @@ void SettingsState::renderGui(sf::RenderTarget& target)
 		it.second->render(target);
 	}
 
-	for (auto &it : this->dropDownLists)
-	{
-		it.second->render(target);
-	}
 }
 
 void SettingsState::render(sf::RenderTarget* target)
