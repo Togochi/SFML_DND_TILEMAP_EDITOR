@@ -193,11 +193,11 @@ namespace gui
 			}
 
 			this->save_btn = new gui::Button(
-				y, x, 120.f, 60.f,
+				x, y, 120.f, 50.f,
 				&font, "Input mode", 
-				24,
-				sf::Color::White, sf::Color::White, sf::Color::White,
-				sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 250), sf::Color(20, 20, 20, 50)
+				20,
+				sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 250), sf::Color(255, 255, 255, 50),
+				sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 			);
 		};
 		virtual ~TextBox() {

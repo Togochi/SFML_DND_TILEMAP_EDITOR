@@ -47,8 +47,11 @@ public:
     EditorState(StateData* state_data);
      ~EditorState();
 
+     //Accessors
+     std::string enumToString(short type);
 
     //Functions
+
     void updateInput(const float& dt);
     void upateEditorInput(const float& dt);
     void updateButtons();

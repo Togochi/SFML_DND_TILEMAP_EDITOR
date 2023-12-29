@@ -75,8 +75,8 @@ void EditorState::initPauseMenu()
 
 void EditorState::initGui()
 {
-	this->sidebar.setSize(sf::Vector2f(80.f, static_cast<float>(this->stateData->gfxSettings->resolution.height)));
-	this->sidebar.setFillColor(sf::Color(50, 50, 50, 100));
+	this->sidebar.setSize(sf::Vector2f(static_cast<float>(this->stateData->gfxSettings->resolution.width), 40.f) );
+	this->sidebar.setFillColor(sf::Color(50, 50, 50, 0));
 	this->sidebar.setOutlineColor(sf::Color(200, 200, 200, 150));
 	this->sidebar.setOutlineThickness(1.f);
 
@@ -88,7 +88,7 @@ void EditorState::initGui()
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
 
-	this->textureSelector = new gui::TextureSelector(20.f, 20.f, 900.f, 500.f, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "TS");
+	this->textureSelector = new gui::TextureSelector(5.f, 41.f, 800.f, 600.f, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "Texture selection");
 }
 
 void EditorState::initButtons()
@@ -128,6 +128,33 @@ EditorState::~EditorState()
 	delete this->textureSelector;
 }
 
+std::string EditorState::enumToString(short type)
+{
+	switch (type)
+	{
+	case 0:
+		return "DEFAULT";
+	case 1:
+		return "RED";
+	case 2:
+		return "GREEN";
+	case 3:
+		return "BLUE";
+	case 4:
+		return "YELLOW";
+	case 5:
+		return "WHITE";
+	case 6:
+		return "GREY";
+	case 7:
+		return "ORANGE";
+	case 8:
+		return "PURPLE";
+	default:
+		return "?";
+	}
+}
+
 
 
 void EditorState::updateInput(const float& dt)
@@ -144,23 +171,26 @@ void EditorState::updateInput(const float& dt)
 void EditorState::upateEditorInput(const float& dt)
 {
 
-	//Move view
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
+	if (!this->textbox1->getSelect())
 	{
-		this->view.move(0.f, -this->cameraSpeed * dt);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
-	{
-		this->view.move(0.f, this->cameraSpeed * dt);
-	}
+		//Move view
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
+		{
+			this->view.move(0.f, -(this->cameraSpeed * dt));
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
+		{
+			this->view.move(0.f, this->cameraSpeed * dt);
+		}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
-	{
-		this->view.move(-this->cameraSpeed * dt, 0.f);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))) )
-	{
-		this->view.move(this->cameraSpeed * dt, 0.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
+		{
+			this->view.move(-(this->cameraSpeed * dt), 0.f);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))))
+		{
+			this->view.move(this->cameraSpeed * dt, 0.f);
+		}
 	}
 
 	// Add a tile to the Tilemap
@@ -187,6 +217,7 @@ void EditorState::upateEditorInput(const float& dt)
 			}
 		}
 	}
+
 	// Remove a tile from the Tilemap
 	else if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && this->getKeytime())
 	{
@@ -250,7 +281,7 @@ void EditorState::updateGui(const float& dt)
 		<< this->mousePosGrid.x << ' ' << this->mousePosGrid.y << '\n'
 		<< this->textureRect.left << ' ' << this->textureRect.top << '\n'
 		<< "Fill: " << this->fill << '\n'
-		<< "Type: " << this->type << '\n'
+		<< "Type: " << this->enumToString(this->type) << '\n'
 		<< "Tiles: " << this->tileMap->getLayerSize(this->mousePosGrid.x, this->mousePosGrid.y, this->layer) << '\n'
 		<< "Tile lock: " << this->tileAddLock;
 
@@ -322,6 +353,7 @@ void EditorState::renderGui(sf::RenderTarget& target)
 	target.setView(this->window->getDefaultView());
 	this->textureSelector->render(target);
 	target.draw(this->sidebar);
+	this->textbox1->render(target);
 
 	target.setView(this->view);
 	target.draw(this->cursorText);
@@ -346,7 +378,7 @@ void EditorState::render(sf::RenderTarget* target)
 		target->setView(this->window->getDefaultView());
 		this->pmenu->render(*target);
 		this->textbox1->render(*target);
-	
+		
 	}
 }
 
