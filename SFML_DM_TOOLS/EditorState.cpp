@@ -32,7 +32,7 @@ void EditorState::initFonts()
 {
 	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
 	{
-		std::cerr << "ERROR::EditorState::INITFONTS: COULD NOT LOAD FONT";
+		std::cerr << "ERROR::EDITORSTATE::INITFONTS: COULD NOT LOAD FONT";
 	}
 }
 
@@ -206,7 +206,6 @@ void EditorState::upateEditorInput(const float& dt)
 						if (this->charContains)
 						{
 							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, this->textbox1->getText());
-							std::cout << this->textbox1->getText();
 						}
 						else
 						{
@@ -219,7 +218,6 @@ void EditorState::upateEditorInput(const float& dt)
 					if (this->charContains)
 					{
 						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, this->textbox1->getText());
-						std::cout << this->textbox1->getText();
 					}
 					else
 					{

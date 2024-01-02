@@ -26,14 +26,8 @@ Tile::Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, 
 	this->type = type;
 	this->charContains = char_contains;
 
-	if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
-	{
-		std::cerr << "TILE::ERROR::INITFONTS: COULD NOT LOAD FONT";
-	}
-
 	if (char_contains)
 	{
-
 		this->text.setFont(this->font);
 		this->text.setCharacterSize(24);
 		this->text.setFillColor(sf::Color::White);

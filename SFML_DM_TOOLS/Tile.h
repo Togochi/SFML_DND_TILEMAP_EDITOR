@@ -32,7 +32,7 @@ public:
 	const bool& isFill() const;
 	const bool& isCharContains() const;
 	
-	const std::string getText() const;
+
 	const sf::Vector2f& getPosition() const;
 	const sf::FloatRect getGlobalBounds() const;
 	const std::string getAsString() const;
