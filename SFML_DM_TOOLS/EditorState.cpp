@@ -84,10 +84,13 @@ void EditorState::initGui()
 	this->selectorRect.setFillColor(sf::Color(255, 255, 255, 150));
 	this->selectorRect.setOutlineThickness(1.f);
 	this->selectorRect.setOutlineColor(sf::Color::Green);
+}
 
+
+void EditorState::initTileGui()
+{
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
-
 	this->textureSelector = new gui::TextureSelector(5.f, 41.f, 800.f, 600.f, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "Texture selection");
 }
 
@@ -96,9 +99,10 @@ void EditorState::initButtons()
 
 }
 
-void EditorState::initTileMap()
+void EditorState::initTileMap(std::string file_name)
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 1000, 1000, "Resources/Images/Tiles/tilesheet.png");
+	file_name = file_name.substr(0, file_name.length() - 4);
+	this->tileMap = new TileMap(this->stateData->gridSize, 1000, 1000, "Resources/Images/Tiles/" + file_name + ".png");
 }
 
 EditorState::EditorState(StateData* state_data)
@@ -112,8 +116,10 @@ EditorState::EditorState(StateData* state_data)
 	this->initKeybinds();
 	this->initPauseMenu();
 	this->initButtons();
-	this->initTileMap();
+	
 	this->initGui();
+	this->textureSelector = NULL;
+	this->tileMap = NULL;
 }
 
 EditorState::~EditorState()
@@ -124,8 +130,11 @@ EditorState::~EditorState()
 		delete it->second;
 	}
 	delete this->pmenu;
-	delete this->tileMap;
-	delete this->textureSelector;
+
+	if (this->tileMap)
+		delete this->tileMap;
+	if (this->textureSelector)
+		delete this->textureSelector;
 }
 
 std::string EditorState::enumToString(short type)
@@ -315,20 +324,22 @@ void EditorState::updateGui(const float& dt)
 
 void EditorState::updatePauseMenuButtons()
 {
-	const std::string file_name = "";
+	std::string file_name = "";
 
 	if (this->pmenu->isButtonPressed("QUIT"))
 		this->endState();
 
 	if (this->pmenu->isButtonPressed("SAVE") && this->getKeytime())
 	{
-		const std::string file_name = this->textbox1->getText();
+		std::string file_name = this->textbox1->getText();
 		this->tileMap->saveToFile(file_name);
 	}
 
 	if (this->pmenu->isButtonPressed("LOAD") && this->getKeytime())
 	{
-		const std::string file_name = this->textbox1->getText();
+		std::string file_name = this->textbox1->getText();
+		this->initTileMap(file_name);
+		this->initTileGui();
 		this->tileMap->loadFromFile(file_name);
 	}
 		
@@ -345,8 +356,12 @@ void EditorState::update(const float& dt)
 	if (!this->paused)
 	{
 		this->updateButtons();
-		this->updateGui(dt);
-		this->upateEditorInput(dt);
+
+		if (this->tileMap)
+		{
+			this->updateGui(dt);
+			this->upateEditorInput(dt);
+		}
 	}
 	else
 	{
@@ -391,11 +406,18 @@ void EditorState::render(sf::RenderTarget* target)
 	}
 
 	target->setView(this->view);
-	this->tileMap->render(*target, this->mousePosGrid, true);
+	if (this->tileMap)
+	{
+		this->tileMap->render(*target, this->mousePosGrid, true);
+	}
 
 	target->setView(this->window->getDefaultView());
 	this->renderButtons(*target);
-	this->renderGui(*target);
+
+	if (this->tileMap)
+	{
+		this->renderGui(*target);
+	}
 
 	if (this->paused)
 	{

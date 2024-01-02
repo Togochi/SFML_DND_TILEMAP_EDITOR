@@ -28,7 +28,7 @@ private:
     //void initTexture();
     void initFonts();
     void initPauseMenu();
-    void initTileMap();  
+    void initTileMap(std::string file_name);
 public:
     GameState(StateData* state_data);
     ~GameState();

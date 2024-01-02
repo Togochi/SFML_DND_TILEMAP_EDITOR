@@ -4,7 +4,7 @@
 
 void GameState::initVariables()
 {
-	this->cameraSpeed = 500.f;
+	this->cameraSpeed = 1000.f;
 
 }
 
@@ -65,9 +65,10 @@ void GameState::initPauseMenu()
 
 }
 
-void GameState::initTileMap()
+void GameState::initTileMap(std::string file_name)
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 1000, 1000, "Resources/Images/Tiles/tilesheet.png");
+	file_name = file_name.substr(0, file_name.length() - 4);
+	this->tileMap = new TileMap(this->stateData->gridSize, 1000, 1000, "Resources/Images/Tiles/" + file_name + ".png");
 }
 
 
@@ -80,7 +81,7 @@ GameState::GameState(StateData* state_data)
 	this->initKeybinds();
 	this->initFonts();
 	this->initPauseMenu();
-	this->initTileMap();
+	this->tileMap = NULL;
 }
 
 GameState::~GameState()
@@ -129,7 +130,8 @@ void GameState::updateInput(const float& dt)
 
 void GameState::updateTileMap(const float& dt)
 {
-	this->tileMap->update();
+	if (this->tileMap)
+		this->tileMap->update();
 }
 
 void GameState::updatePauseMenuButtons()
@@ -141,7 +143,8 @@ void GameState::updatePauseMenuButtons()
 
 	if (this->pmenu->isButtonPressed("LOAD"))
 	{
-		const std::string file_name = this->textbox1->getText();
+		std::string file_name = this->textbox1->getText();
+		this->initTileMap(file_name);
 		this->tileMap->loadFromFile(file_name);
 	}
 	
@@ -176,7 +179,12 @@ void GameState::render(sf::RenderTarget* target)
 	this->renderTexture.clear();
 
 	this->renderTexture.setView(this->view);
-	this->tileMap->render(this->renderTexture, this->mousePosGrid, true);
+
+	if (this->tileMap)
+	{
+		this->tileMap->render(this->renderTexture, this->mousePosGrid, true);
+	}
+		
 
 	//Render GUI
 	this->renderTexture.setView(this->renderTexture.getDefaultView());

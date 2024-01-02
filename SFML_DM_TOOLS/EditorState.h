@@ -44,7 +44,8 @@ private:
     void initPauseMenu();
     void initGui();
     void initButtons();
-    void initTileMap();
+    void initTileMap(std::string file_name);
+    void initTileGui();
 public:
     EditorState(StateData* state_data);
      ~EditorState();
