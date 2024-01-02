@@ -4,7 +4,7 @@
 
 void GameState::initVariables()
 {
-	this->cameraSpeed = 1000.f;
+	this->cameraSpeed = 700.f;
 
 }
 

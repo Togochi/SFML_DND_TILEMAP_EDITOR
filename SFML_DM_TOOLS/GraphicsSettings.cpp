@@ -10,6 +10,7 @@ GraphicsSettings::GraphicsSettings()
 	this->frameRateLimit = 120;
 	this->contextSettings.antialiasingLevel = 0;
 	this->videoModes = sf::VideoMode::getFullscreenModes();
+	this->gridSize = 64.f;
 }
 
 //Functions
@@ -42,6 +43,7 @@ void GraphicsSettings::loadFromFile(const std::string path)
 		ifs >> this->frameRateLimit;
 		ifs >> this->verticalSync;
 		ifs >> this->contextSettings.antialiasingLevel;
+		ifs >> this->gridSize;
 	}
 
 	ifs.close();

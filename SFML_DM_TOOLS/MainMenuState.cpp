@@ -76,7 +76,7 @@ void MainMenuState::initGui()
 	this->buttons["EDITOR_STATE"] = new gui::Button(
 		gui::p2pX(15.6f, vm), gui::p2pY(50.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
-		&this->font, "Map editor", gui::calcCharSize(vm),
+		&this->font, "Editor mode", gui::calcCharSize(vm),
 		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 

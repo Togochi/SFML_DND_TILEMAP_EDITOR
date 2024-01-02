@@ -81,11 +81,15 @@ gui::Button::Button(float x, float y, float width, float height,
 	this->outlineIdleColor = outline_idle_color;
 	this->outlineHoverColor = outline_hover_color;
 	this->outlineActiveColor = outline_active_color;
+
+	this->soundBuffer.loadFromFile("Resources/Sounds/sound.ogg");
+	this->sound.setBuffer(soundBuffer);
+	this->sound.setVolume(20);
 }
 
 gui::Button::~Button()
 {
-
+	
 }
 
 //Accessors
@@ -156,6 +160,7 @@ void gui::Button::update(const sf::Vector2i& mousePosWindow)
 		this->shape.setFillColor(this->activeColor);
 		this->text.setFillColor(this->textActiveColor);
 		this->shape.setOutlineColor(this->outlineActiveColor);
+		this->sound.play();
 		break;
 
 	default:

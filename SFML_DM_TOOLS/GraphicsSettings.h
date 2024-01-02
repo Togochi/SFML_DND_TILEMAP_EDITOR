@@ -14,6 +14,7 @@ public:
 	unsigned frameRateLimit;
 	sf::ContextSettings contextSettings;
 	std::vector<sf::VideoMode> videoModes;
+	float gridSize;
 
 	//Functions
 	void saveToFile(const std::string path);

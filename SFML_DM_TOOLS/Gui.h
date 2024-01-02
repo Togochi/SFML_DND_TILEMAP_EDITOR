@@ -31,6 +31,9 @@ namespace gui
 		sf::Color outlineHoverColor;
 		sf::Color outlineActiveColor;
 
+		sf::SoundBuffer soundBuffer;
+		sf::Sound sound;
+
 	public:
 		Button(float x, float y, float width, float height,
 			sf::Font* font, std::string text, unsigned character_size,
@@ -280,7 +283,7 @@ namespace gui
 
 		void typedOn(sf::Event input) {
 			if (isSelected)
-			{
+			{  
 				int charTyped = input.text.unicode;
 				if (charTyped < 128)
 				{
@@ -311,9 +314,15 @@ namespace gui
 			{
 				
 				if (this->isSelected)
+				{
 					this->setSelected(false);
+					this->save_btn->setText("Input mode OFF");
+				}
 				else
+				{
 					this->setSelected(true);
+					this->save_btn->setText("Input mode ON");
+				}
 		
 			}
 		}

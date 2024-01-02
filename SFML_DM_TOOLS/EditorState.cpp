@@ -91,7 +91,7 @@ void EditorState::initTileGui()
 {
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
-	this->textureSelector = new gui::TextureSelector(5.f, 41.f, 800.f, 600.f, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "Texture selection");
+	this->textureSelector = new gui::TextureSelector(5.f, 41.f, 1300.f, 1000.f, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "Texture selection");
 }
 
 void EditorState::initButtons()
@@ -392,7 +392,7 @@ void EditorState::renderGui(sf::RenderTarget& target)
 	target.setView(this->window->getDefaultView());
 	this->textureSelector->render(target);
 	target.draw(this->sidebar);
-	this->textbox1->render(target);
+	
 
 	target.setView(this->view);
 	target.draw(this->cursorText);
@@ -413,6 +413,7 @@ void EditorState::render(sf::RenderTarget* target)
 
 	target->setView(this->window->getDefaultView());
 	this->renderButtons(*target);
+	this->textbox1->render(*target);
 
 	if (this->tileMap)
 	{

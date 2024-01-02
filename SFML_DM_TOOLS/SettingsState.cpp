@@ -83,7 +83,8 @@ void SettingsState::initGui()
 
 	this->optionsText.setString(
 		"To configure the graphics, go to Config/graphics.ini and go to the settings: " 
-		"\n - title \n - resolution.width / resolution.height\n - Full screen mode(0 - off, 1 - on) \n - Frame rate limitation\n - vertical synchronization(0 - off, 1 - on)"
+		"\n - title \n - resolution.width / resolution.height\n - Full screen mode(0 - off, 1 - on)"
+		"\n - Frame rate limitation\n - vertical synchronization(0 - off, 1 - on)\n - Grid size (32, 64, or any other)"
 		"\n\nTo enter text in game mode, use the button in the upper left corner of the screen.\n In editor mode, this option is available only in the menu (press Escape)."
 		"\nTo delete all the entered text, you can press Tab."
 		"\n\nTo save or download any file, first call the text input mode. " 

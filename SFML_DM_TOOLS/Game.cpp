@@ -10,13 +10,12 @@ void Game::initVariables()
 
 	this->dt = 0.f;
 
-	this->gridSize = 64.f;
-
 }
 
 void Game::initGraphicsSettings()
 {
 	this->gfxSettings.loadFromFile("Config/graphics.ini");
+	this->gridSize = this->gfxSettings.gridSize;
 }
 
 void Game::initWindow()
