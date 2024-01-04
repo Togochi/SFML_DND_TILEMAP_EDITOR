@@ -300,12 +300,12 @@ void EditorState::upateEditorInput(const float& dt)
 
 }
 
-void EditorState::updateButtons()
+void EditorState::updateButtons(const float & dt)
 {
 	//Updates all buttons in the state and handles their functionality
 	for (auto& it : this->buttons)
 	{
-		it.second->update(this->mousePosWindow);
+		it.second->update(this->mousePosWindow, dt);
 	}
 }
 
@@ -368,7 +368,7 @@ void EditorState::update(const float& dt)
 
 	if (!this->paused)
 	{
-		this->updateButtons();
+		this->updateButtons( dt);
 
 		if (this->tileMap)
 		{
@@ -378,7 +378,7 @@ void EditorState::update(const float& dt)
 	}
 	else
 	{
-		this->pmenu->update(this->mousePosWindow);
+		this->pmenu->update(this->mousePosWindow, dt);
 		this->updatePauseMenuButtons();
 	}
 

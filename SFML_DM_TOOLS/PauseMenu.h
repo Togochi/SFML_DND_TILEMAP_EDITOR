@@ -33,7 +33,7 @@ public:
 		const float height,
 		const unsigned char_size, 
 		const std::string text);
-	void update(const sf::Vector2i& mousePosWindow);
+	void update(const sf::Vector2i& mousePosWindow, const float& dt);
 	void render(sf::RenderTarget& target);
 };
 

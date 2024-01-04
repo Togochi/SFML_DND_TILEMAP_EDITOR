@@ -157,7 +157,7 @@ void SettingsState::updateGui(const float & dt)
 	//Buttons
 	for (auto &it : this->buttons)
 	{
-		it.second->update(this->mousePosWindow);
+		it.second->update(this->mousePosWindow, dt);
 	}
 
 	//Button functionality

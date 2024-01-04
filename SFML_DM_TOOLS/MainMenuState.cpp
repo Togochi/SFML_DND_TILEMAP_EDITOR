@@ -127,13 +127,13 @@ void MainMenuState::updateInput(const float& dt)
 
 }
 
-void MainMenuState::updateButtons()
+void MainMenuState::updateButtons(const float& dt)
 {
 	//Updates all buttons in the state and handles their functionality
 
 	for (auto& it : this->buttons)
 	{
-		it.second->update(this->mousePosWindow);
+		it.second->update(this->mousePosWindow, dt);
 	}
 
 	//Game mode
@@ -168,7 +168,7 @@ void MainMenuState::update(const float& dt)
 
 	this->updateInput(dt);
 
-	this->updateButtons();
+	this->updateButtons(dt);
 
 }
 

@@ -59,7 +59,7 @@ public:
 
     void updateInput(const float& dt);
     void upateEditorInput(const float& dt);
-    void updateButtons();
+    void updateButtons(const float& dt);
     void updateGui(const float& dt);
     void updatePauseMenuButtons();
     void update(const float& dt);

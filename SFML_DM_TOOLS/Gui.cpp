@@ -49,6 +49,7 @@ gui::Button::Button(float x, float y, float width, float height,
 	sf::Color idle_color, sf::Color hover_color, sf::Color active_color,
 	sf::Color outline_idle_color, sf::Color outline_hover_color, sf::Color outline_active_color,
 	short unsigned id)
+	: keytimeMax(1.f), keytime(0.f)
 {
 	this->buttonState = BTN_IDLE;
 	this->id = id;
@@ -84,7 +85,7 @@ gui::Button::Button(float x, float y, float width, float height,
 
 	this->soundBuffer.loadFromFile("Resources/Sounds/sound.ogg");
 	this->sound.setBuffer(soundBuffer);
-	this->sound.setVolume(20);
+	this->sound.setVolume(5);
 }
 
 gui::Button::~Button()
@@ -111,6 +112,25 @@ const short unsigned & gui::Button::getId() const
 	return this->id;
 }
 
+
+void gui::Button::updateKeytime(const float& dt)
+{
+	if (this->keytime < this->keytimeMax)
+		this->keytime += 10.f * dt;
+}
+
+const bool gui::Button::getKeytime()
+{
+	if (this->keytime >= this->keytimeMax)
+	{
+		this->keytime = 0.f;
+		return true;
+	}
+
+	return false;
+}
+
+
 //Modifiers
 void gui::Button::setText(const std::string text)
 {
@@ -123,10 +143,11 @@ void gui::Button::setId(const short unsigned id)
 }
 
 //Functions
-void gui::Button::update(const sf::Vector2i& mousePosWindow)
+void gui::Button::update(const sf::Vector2i& mousePosWindow, const float & dt)
 {
 	/*Update the booleans for hover and pressed*/
 
+	this->updateKeytime(dt);
 	//Idle
 	this->buttonState = BTN_IDLE;
 
@@ -136,7 +157,7 @@ void gui::Button::update(const sf::Vector2i& mousePosWindow)
 		this->buttonState = BTN_HOVER;
 
 		//Pressed
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->getKeytime())
 		{
 			this->buttonState = BTN_ACTIVE;
 		}
@@ -246,7 +267,7 @@ void gui::DropDownList::update(const sf::Vector2i & mousePosWindow, const float&
 {
 	this->updateKeytime(dt);
 
-	this->activeElement->update(mousePosWindow);
+	this->activeElement->update(mousePosWindow, dt);
 
 	//Show and hide the list
 	if (this->activeElement->isPressed() && this->getKeytime())
@@ -261,7 +282,7 @@ void gui::DropDownList::update(const sf::Vector2i & mousePosWindow, const float&
 	{
 		for (auto &i : this->list)
 		{
-			i->update(mousePosWindow);
+			i->update(mousePosWindow, dt);
 
 			if (i->isPressed() && this->getKeytime())
 			{
@@ -371,7 +392,7 @@ void gui::TextureSelector::updateKeytime(const float& dt)
 void gui::TextureSelector::update(const sf::Vector2i& mousePosWindow, const float& dt)
 {
 	this->updateKeytime(dt);
-	this->hide_btn->update(mousePosWindow);
+	this->hide_btn->update(mousePosWindow, dt);
 
 	if (this->hide_btn->isPressed() && this->getKeytime())
 	{

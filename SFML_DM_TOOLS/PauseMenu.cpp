@@ -75,11 +75,11 @@ void PauseMenu::addButton(
 	);
 }
 
-void PauseMenu::update(const sf::Vector2i& mousePosWindow)
+void PauseMenu::update(const sf::Vector2i& mousePosWindow, const float& dt)
 {
 	for (auto &i : this->buttons)
 	{
-		i.second->update(mousePosWindow);
+		i.second->update(mousePosWindow, dt);
 	}
 }
 

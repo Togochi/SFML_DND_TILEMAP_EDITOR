@@ -17,6 +17,9 @@ namespace gui
 		short unsigned buttonState;
 		short unsigned id;
 
+		float keytime;
+		const float keytimeMax;
+
 		sf::RectangleShape shape;
 		sf::Font* font;
 		sf::Text text;
@@ -45,6 +48,9 @@ namespace gui
 			short unsigned id = 0);
 		~Button();
 
+		const bool getKeytime();
+		void updateKeytime(const float& dt);
+
 		//Accessors
 		const bool isPressed() const;
 		const std::string getText() const;
@@ -55,7 +61,7 @@ namespace gui
 		void setId(const short unsigned id);
 
 		//Functions
-		void update(const sf::Vector2i& mousePosWindow);
+		void update(const sf::Vector2i& mousePosWindow, const float& dt);
 		void render(sf::RenderTarget& target);
 	};
 
@@ -325,7 +331,7 @@ namespace gui
 		void update(const sf::Vector2i& mousePosWindow, const float & dt)
 		{
 			this->updateKeytime(dt);
-			this->save_btn->update(mousePosWindow);
+			this->save_btn->update(mousePosWindow, dt);
 
 			if (this->save_btn->isPressed() && this->getKeytime())
 			{
