@@ -291,12 +291,13 @@ void gui::DropDownList::render(sf::RenderTarget & target)
 gui::TextureSelector::TextureSelector(float x, float y, float width, float height, 
 	float gridSize, const sf::Texture* texture_sheet,
 	sf::Font& font, std::string text) 
-	: keytimeMax(1.f), keytime(0.f)
+	: keytimeMax(1.f), keytime(0.f), scrollOffset(0.f, 0.f)
 {
 	this->gridSize = gridSize;
 	this->active = false;
-	this->hidden = false;
-	float offset = gridSize;
+	this->hidden = true;
+	this->offset = gridSize;
+
 
 	this->bounds.setSize(sf::Vector2f(width, height));
 	this->bounds.setPosition(x+ offset, y);
@@ -307,14 +308,14 @@ gui::TextureSelector::TextureSelector(float x, float y, float width, float heigh
 	this->sheet.setTexture(*texture_sheet);
 	this->sheet.setPosition(x + offset, y);
 
-	if (this->sheet.getGlobalBounds().width > this->bounds.getGlobalBounds().width)
-	{
-		this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->bounds.getGlobalBounds().width), static_cast<int>(this->sheet.getGlobalBounds().height)));
-	}
-	if (this->sheet.getGlobalBounds().height > this->bounds.getGlobalBounds().height)
-	{
-		this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->sheet.getGlobalBounds().width), static_cast<int>(this->bounds.getGlobalBounds().height)));
-	}
+	//if (this->sheet.getGlobalBounds().width > this->bounds.getGlobalBounds().width)
+	//{
+	//	this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->bounds.getGlobalBounds().width), static_cast<int>(this->sheet.getGlobalBounds().height)));
+	//}
+	//if (this->sheet.getGlobalBounds().height > this->bounds.getGlobalBounds().height)
+	//{
+	//	this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->sheet.getGlobalBounds().width), static_cast<int>(this->bounds.getGlobalBounds().height)));
+	//}
 
 	this->selector.setPosition(x + offset, y);
 	this->selector.setSize(sf::Vector2f(gridSize, gridSize));
@@ -375,18 +376,24 @@ void gui::TextureSelector::update(const sf::Vector2i& mousePosWindow, const floa
 	if (this->hide_btn->isPressed() && this->getKeytime())
 	{
 		if (this->hidden)
+		{
 			this->hidden = false;
+			this->active = true;
+		}
 		else
+		{
 			this->hidden = true;
+			this->active = false;
+		}
 	}
 
 	if (!this->hidden)
 	{
-		this->active = false;
+		/*this->active = false;*/
 
-		if (this->bounds.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
-		{
-			this->active = true;
+		/*if (this->bounds.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
+		{*/
+			//this->active = true;
 
 			this->mousePosGrid.x = (mousePosWindow.x - static_cast<int>(this->bounds.getPosition().x)) / static_cast<unsigned>(this->gridSize);
 			this->mousePosGrid.y = (mousePosWindow.y - static_cast<int>(this->bounds.getPosition().y)) / static_cast<unsigned>(this->gridSize);
@@ -399,7 +406,7 @@ void gui::TextureSelector::update(const sf::Vector2i& mousePosWindow, const floa
 			//Update texture rectangle
 			this->textureRect.left = static_cast<int>(this->selector.getPosition().x - this->bounds.getPosition().x);
 			this->textureRect.top = static_cast<int>(this->selector.getPosition().y - this->bounds.getPosition().y);
-		}
+		/*}*/
 	}
 }
 
@@ -407,7 +414,8 @@ void gui::TextureSelector::render(sf::RenderTarget& target)
 {
 	if (!this->hidden)
 	{
-		target.draw(this->bounds);
+
+		//target.draw(this->bounds);
 		target.draw(this->sheet);
 
 		if (this->active)

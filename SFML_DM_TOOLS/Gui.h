@@ -1,6 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
 
+
+
 enum button_states{BTN_IDLE = 0, BTN_HOVER, BTN_ACTIVE};
 
 namespace gui
@@ -99,6 +101,13 @@ namespace gui
 		sf::Vector2u mousePosGrid;
 		sf::IntRect textureRect;
 
+		float x;
+		float y;
+		float offset;
+
+		sf::Vector2f scrollOffset;
+		sf::Vector2f maxScrollOffset;
+
 	public:
 		TextureSelector(float x, float y, float width, float height, 
 			float gridSize, const sf::Texture* texture_sheet, 
@@ -127,6 +136,7 @@ namespace gui
 		bool isSelected;
 		bool hasLimit = false;
 		int limit;
+	
 
 		gui::Button* save_btn;
 
@@ -146,6 +156,8 @@ namespace gui
 
 			textbox.setString(text.str());
 		}
+
+		
 
 		void InputLogic(int charTyped)
 		{
@@ -170,8 +182,11 @@ namespace gui
 				text.str("");
 			}
 
+
 			textbox.setString(text.str() + "_");
 		}
+
+		
 
 	public:
 		
@@ -202,6 +217,8 @@ namespace gui
 				sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 250), sf::Color(255, 255, 255, 50),
 				sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 			);
+
+		
 		};
 		virtual ~TextBox() {
 			delete this->save_btn;

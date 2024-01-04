@@ -18,6 +18,7 @@
 #include <fstream>
 #include <cmath>
 
+
 //SFML
 #include <SFML\System.hpp>
 #include <SFML\Window.hpp>
