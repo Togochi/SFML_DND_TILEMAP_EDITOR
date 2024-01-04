@@ -18,7 +18,7 @@ protected:
 
 	sf::Text text;
 	sf::Font font;
-	std::string str;
+	const std::string str;
 
 public:
 	Tile();
@@ -36,6 +36,7 @@ public:
 	const sf::Vector2f& getPosition() const;
 	const sf::FloatRect getGlobalBounds() const;
 	const std::string getAsString() const;
+	const std::string getText(const std::string str) const;
 
 	//Modifiers
 	void setOutlineColor(const sf::Color color);

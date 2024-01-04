@@ -157,8 +157,7 @@ void TileMap::saveToFile(const std::string file_name)
 						for (int k = 0; k < this->map[x][y][z].size(); k++)
 						{
 							out_file << x << " " << y << " " << z << " "
-								<< this->map[x][y][z][k]->getAsString() << " ";
-
+									 << this->map[x][y][z][k]->getAsString() << " ";
 						}
 					}
 				}
@@ -193,7 +192,6 @@ void TileMap::loadFromFile(const std::string file_name)
 		bool fill = false;
 		short type = 0;
 		bool char_contains = false;
-		std::string str = "";
 
 
 		//Basics
@@ -227,10 +225,11 @@ void TileMap::loadFromFile(const std::string file_name)
 
 		//Load all 
 		
-		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type >> char_contains >> str)
+		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type >> char_contains)
 		{
+			std::string str;
+			std::getline(in_file, str, '|');
 
-			
 			this->map[x][y][z].push_back(new Tile(x, y,
 				this->gridSizeF,
 				this->tileSheet,

@@ -77,9 +77,21 @@ const std::string Tile::getAsString() const
 	std::stringstream ss;
 
 	ss << this->shape.getTextureRect().left << " " << this->shape.getTextureRect().top << " " << 
-		this->fill << " " << this->type << " " << this->charContains << " " << this->str;
+		this->fill << " " << this->type << " " << this->charContains << " " << this->getText(this->str) << "|";
 
 	return ss.str();
+}
+
+const std::string Tile::getText(const std::string str) const
+{
+	std::stringstream ss(str);
+	std::string line;
+	std::string text;
+	while (std::getline(ss, line))
+	{
+		text += line + "\n";
+	}
+	return text;
 }
 
 void Tile::setOutlineColor(const sf::Color color)
