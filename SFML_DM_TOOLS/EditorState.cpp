@@ -69,8 +69,8 @@ void EditorState::initPauseMenu()
 	this->pmenu = new PauseMenu(this->stateData->gfxSettings->resolution, this->font);
 
 	this->pmenu->addButton("QUIT", gui::p2pY(74.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Quit");
-	this->pmenu->addButton("LOAD", gui::p2pY(46.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Load map/texture");
-	this->pmenu->addButton("SAVE", gui::p2pY(37.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Save as");
+	this->pmenu->addButton("LOAD", gui::p2pY(46.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Load texture/map");
+	this->pmenu->addButton("SAVE", gui::p2pY(37.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Save map as");
 }
 
 void EditorState::initGui()
@@ -214,11 +214,12 @@ void EditorState::upateEditorInput(const float& dt)
 					if (this->tileMap->tileEmpty(this->mousePosGrid.x, this->mousePosGrid.y, 0))
 						if (this->charContains)
 						{
-							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, this->textbox1->getText());
+							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->showText, this->font, this->textbox1->getText());
+
 						}
 						else
 						{
-							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, "_");
+							this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->showText, this->font, "_");
 						}
 
 				}
@@ -226,11 +227,12 @@ void EditorState::upateEditorInput(const float& dt)
 				{
 					if (this->charContains)
 					{
-						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, this->textbox1->getText());
+						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->showText, this->font,  this->textbox1->getText());
+						this->tileMap->setShowText(this->mousePosGrid.x, this->mousePosGrid.y, 0, 0, this->showText);
 					}
 					else
 					{
-						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->font, "_");
+						this->tileMap->addTile(this->mousePosGrid.x, this->mousePosGrid.y, 0, this->textureRect, this->fill, this->type, this->charContains, this->showText, this->font, "_");
 					}
 				}
 
@@ -278,6 +280,15 @@ void EditorState::upateEditorInput(const float& dt)
 			this->charContains = true;
 	}
 
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_HIDE_TEXT"))) && this->getKeytime())
+	{
+		if (this->showText)
+			this->showText = false;
+		else
+			this->showText = true;
+	}
+
 	//Set lock on / off
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TILE_LOCK"))) && this->getKeytime())
 	{
@@ -317,7 +328,9 @@ void EditorState::updateGui(const float& dt)
 		<< "Type: " << this->enumToString(this->type) << '\n'
 		<< "Tiles: " << this->tileMap->getLayerSize(this->mousePosGrid.x, this->mousePosGrid.y, this->layer) << '\n'
 		<< "Text: " << this->charContains << '\n'
+		<< "Show text: " << this->showText << '\n'
 		<< "Tile lock: " << this->tileAddLock;
+
 
 	this->cursorText.setString(ss.str());
 }

@@ -14,6 +14,7 @@ protected:
 	sf::RectangleShape contour;
 	bool fill;
 	bool charContains;
+	bool showText;
 	short type;
 
 	sf::Text text;
@@ -24,15 +25,15 @@ public:
 	Tile();
 	Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect,
 		sf::Font& font, std::string str,
-		bool fill = false, short type = TileTypes::DEFAULT, bool char_contains = false);
+		bool fill = false, short type = TileTypes::DEFAULT, bool char_contains = false, bool show_text = false);
 	virtual ~Tile();
 
 	//Accessors
 	const short& getType() const;
 	const bool& isFill() const;
 	const bool& isCharContains() const;
+	const bool& getShowText() const;
 	
-
 	const sf::Vector2f& getPosition() const;
 	const sf::FloatRect getGlobalBounds() const;
 	const std::string getAsString() const;
@@ -41,6 +42,8 @@ public:
 	//Modifiers
 	void setOutlineColor(const sf::Color color);
 	void setFillColor(const sf::Color color);
+
+	void setShowText(bool show);
 
 	//Functions
 	const bool intersects(const sf::FloatRect bounds) const;

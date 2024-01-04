@@ -88,6 +88,22 @@ GameState::~GameState()
 {
 }
 
+void GameState::updateCursor()
+{
+	if (this->tileMap)
+	{
+		if (!this->tileMap->tileEmpty(this->mousePosGrid.x, this->mousePosGrid.y, 0))
+		{
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->getKeytime())
+			{
+				if (!this->tileMap->getShowText(this->mousePosGrid.x, this->mousePosGrid.y, 0, 0))
+					this->tileMap->setShowText(this->mousePosGrid.x, this->mousePosGrid.y, 0, 0, true);
+				else
+					this->tileMap->setShowText(this->mousePosGrid.x, this->mousePosGrid.y, 0, 0, false);
+			}
+		}
+	}
+}
 
 void GameState::updateGameInput(const float& dt)
 {
@@ -112,6 +128,8 @@ void GameState::updateGameInput(const float& dt)
 			this->view.move(this->cameraSpeed * dt, 0.f);
 		}
 	}
+
+	
 	
 }
 
@@ -162,6 +180,7 @@ void GameState::update(const float& dt)
 		
 		this->updateGameInput(dt);
 		this->updateTileMap(dt);
+		this->updateCursor();
 	}
 	else
 	{

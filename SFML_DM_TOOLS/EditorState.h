@@ -33,6 +33,8 @@ private:
     int layer;
     bool tileAddLock;
     bool charContains;
+    bool showText;
+
 
     //Functions
     void initVariables();

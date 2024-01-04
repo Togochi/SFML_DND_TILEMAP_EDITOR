@@ -9,7 +9,7 @@ Tile::Tile()
 
 Tile::Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, const sf::IntRect& texture_rect,
 	sf::Font& font, std::string str,
-	bool fill, short type, bool char_contains):
+	bool fill, short type, bool char_contains, bool show_text):
 	font(font), str(str)
 {
 	this->shape.setPosition(static_cast<float> (grid_x) * gridSizeF, static_cast<float> (grid_y) * gridSizeF);
@@ -25,6 +25,7 @@ Tile::Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, 
 	this->fill = fill;
 	this->type = type;
 	this->charContains = char_contains;
+	this->showText = show_text;
 
 	if (char_contains)
 	{
@@ -56,6 +57,11 @@ const bool& Tile::isCharContains() const
 	return this->charContains;
 }
 
+const bool& Tile::getShowText() const
+{
+	return this->showText;
+}
+
 
 const sf::Vector2f& Tile::getPosition() const
 {
@@ -77,7 +83,7 @@ const std::string Tile::getAsString() const
 	std::stringstream ss;
 
 	ss << this->shape.getTextureRect().left << " " << this->shape.getTextureRect().top << " " << 
-		this->fill << " " << this->type << " " << this->charContains << " " << this->getText(this->str) << "|";
+		this->fill << " " << this->type << " " << this->charContains << " " << this->showText << " " << this->getText(this->str) << "|";
 
 	return ss.str();
 }
@@ -104,6 +110,11 @@ void Tile::setFillColor(const sf::Color color)
 	this->contour.setFillColor(color);
 }
 
+void Tile::setShowText(bool show)
+{
+	this->showText = show;
+}
+
 void Tile::update()
 {
 
@@ -115,6 +126,9 @@ void Tile::render(sf::RenderTarget& target)
 		target.draw(this->contour);
 		if (this->charContains)
 		{
-			target.draw(this->text);
+			if (this->showText)
+			{
+				target.draw(this->text);
+			}
 		}
 }

@@ -96,6 +96,11 @@ const bool TileMap::tileEmpty(const int x, const int y, const int z) const
 	return false;
 }
 
+const bool TileMap::getShowText(const int x, const int y, const int z, const int k) const
+{
+	return this->map[x][y][z][k]->getShowText();
+}
+
 //Accesors
 const sf::Texture* TileMap::getTileSheet() const
 {
@@ -120,6 +125,11 @@ const int TileMap::getLayerSize(const int x, const int y, const int layer) const
 }
 
 //Functions
+
+void TileMap::setShowText(const int x, const int y, const int z, const int k, bool show)
+{
+	this->map[x][y][z][k]->setShowText(show);
+}
 
 void TileMap::saveToFile(const std::string file_name)
 {
@@ -192,6 +202,7 @@ void TileMap::loadFromFile(const std::string file_name)
 		bool fill = false;
 		short type = 0;
 		bool char_contains = false;
+		bool show_text = true;
 
 
 		//Basics
@@ -225,7 +236,7 @@ void TileMap::loadFromFile(const std::string file_name)
 
 		//Load all 
 		
-		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type >> char_contains)
+		while (in_file >> x >> y >> z >> trX >> trY >> fill >> type >> char_contains >> show_text)
 		{
 			std::string str;
 			std::getline(in_file, str, '|');
@@ -237,7 +248,8 @@ void TileMap::loadFromFile(const std::string file_name)
 				this->font, str,
 				fill,
 				type,
-				char_contains));
+				char_contains, 
+				show_text));
 
 		}
 			in_file.close();
@@ -354,7 +366,7 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 
 
 void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& texture_rect, const bool& collision, const short& type,
-	const bool& char_contains, sf::Font& font, std::string str)
+	const bool& char_contains, const bool& show_text, sf::Font& font, std::string str)
 {
 	//Add a tile if its index fits into the size of the map
 
@@ -364,7 +376,7 @@ void TileMap::addTile(const int x, const int y, const int z, const sf::IntRect& 
 	{
 
 		//Can add a tile
-		this->map[x][y][z].push_back(new Tile(x, y, this->gridSizeF, this->tileSheet, texture_rect, this->font, str, collision, type, char_contains));
+		this->map[x][y][z].push_back(new Tile(x, y, this->gridSizeF, this->tileSheet, texture_rect, this->font, str, collision, type, char_contains, show_text));
 
 	}
 }

@@ -35,6 +35,7 @@ public:
 
 
     //Functions
+    void updateCursor();
     void updateInput(const float& dt);
     void updateGameInput(const float& dt);
     void updatePauseMenuButtons();
