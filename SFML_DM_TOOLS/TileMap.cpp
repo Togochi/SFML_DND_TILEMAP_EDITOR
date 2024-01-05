@@ -290,78 +290,169 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 	else if (this->toY > this->maxSizeWorldGrid.y)
 		this->toY = this->maxSizeWorldGrid.y;
 
+
+	std::vector<Tile*> charTiles;
+
+	// isCharContains() == true
 	for (int x = this->fromX; x < this->toX; x++)
 	{
 		for (int y = this->fromY; y < this->toY; y++)
 		{
 			for (int k = 0; k < this->map[x][y][this->layer].size(); k++)
 			{
-
-				if (this->map[x][y][this->layer][k]->getType() != TileTypes::DEFAULT)
+				if (this->map[x][y][this->layer][k]->isCharContains())
 				{
-					switch (this->map[x][y][this->layer][k]->getType())
-					{
-					case TileTypes::RED:
-
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 0, 0, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Red);
-						break;
-					case TileTypes::GREEN:
-						if(this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(0, 255, 0, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Green);
-						break;
-					case TileTypes::BLUE:
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(27, 42, 207, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Blue);
-						break;
-					case TileTypes::YELLOW:
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 255, 0, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Yellow);
-						break;
-					case TileTypes::WHITE:
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 255, 255, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::White);
-						break;
-					case TileTypes::ORANGE:
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 165, 0, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color(255, 165, 0, 255));
-						break;
-					case TileTypes::GREY:
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(128, 128, 128, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color(128, 128, 128, 255));
-						break;
-					case TileTypes::PURPLE:
-						if (this->map[x][y][this->layer][k]->isFill())
-							this->map[x][y][this->layer][k]->setFillColor(sf::Color(148, 0, 211, 90));
-						else
-							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Magenta);
-						break;
-					default:
-						this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Black);
-						break;
-					}
+					charTiles.push_back(this->map[x][y][this->layer][k]);
 				}
-				
-				this->map[x][y][this->layer][k]->render(target);
 			}
-
 		}
 	}
 
+	// isCharContains() == false
+	for (int x = this->fromX; x < this->toX; x++)
+	{
+		for (int y = this->fromY; y < this->toY; y++)
+		{
+			for (int k = 0; k < this->map[x][y][this->layer].size(); k++)
+			{
+				if (!this->map[x][y][this->layer][k]->isCharContains())
+				{
+					if (this->map[x][y][this->layer][k]->getType() != TileTypes::DEFAULT)
+					{
+						switch (this->map[x][y][this->layer][k]->getType())
+						{
+						case TileTypes::RED:
+
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 0, 0, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Red);
+							break;
+						case TileTypes::GREEN:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(0, 255, 0, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Green);
+							break;
+						case TileTypes::BLUE:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(27, 42, 207, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Blue);
+							break;
+						case TileTypes::YELLOW:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 255, 0, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Yellow);
+							break;
+						case TileTypes::WHITE:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 255, 255, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::White);
+							break;
+						case TileTypes::ORANGE:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(255, 165, 0, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color(255, 165, 0, 255));
+							break;
+						case TileTypes::GREY:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(128, 128, 128, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color(128, 128, 128, 255));
+							break;
+						case TileTypes::PURPLE:
+							if (this->map[x][y][this->layer][k]->isFill())
+								this->map[x][y][this->layer][k]->setFillColor(sf::Color(148, 0, 211, 90));
+							else
+								this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Magenta);
+							break;
+						case TileTypes::TRANSPARENT:
+							this->map[x][y][this->layer][k]->setFillColor(sf::Color(0, 0, 0, 255));
+							break;
+						default:
+							this->map[x][y][this->layer][k]->setOutlineColor(sf::Color::Black);
+							break;
+						}
+
+					}
+					this->map[x][y][this->layer][k]->render(target);
+				}
+			}
+		}
+	}
+
+	// Render isCharContains()
+	for (Tile* tile : charTiles)
+	{
+
+		if (tile->getType() != TileTypes::DEFAULT)
+		{
+			switch (tile->getType())
+			{
+			case TileTypes::RED:
+
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(255, 0, 0, 90));
+				else
+					tile->setOutlineColor(sf::Color::Red);
+				break;
+			case TileTypes::GREEN:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(0, 255, 0, 90));
+				else
+					tile->setOutlineColor(sf::Color::Green);
+				break;
+			case TileTypes::BLUE:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(27, 42, 207, 90));
+				else
+					tile->setOutlineColor(sf::Color::Blue);
+				break;
+			case TileTypes::YELLOW:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(255, 255, 0, 90));
+				else
+					tile->setOutlineColor(sf::Color::Yellow);
+				break;
+			case TileTypes::WHITE:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(255, 255, 255, 90));
+				else
+					tile->setOutlineColor(sf::Color::White);
+				break;
+			case TileTypes::ORANGE:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(255, 165, 0, 90));
+				else
+					tile->setOutlineColor(sf::Color(255, 165, 0, 255));
+				break;
+			case TileTypes::GREY:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(128, 128, 128, 90));
+				else
+					tile->setOutlineColor(sf::Color(128, 128, 128, 255));
+				break;
+			case TileTypes::PURPLE:
+				if (tile->isFill())
+					tile->setFillColor(sf::Color(148, 0, 211, 90));
+				else
+					tile->setOutlineColor(sf::Color::Magenta);
+				break;
+			case TileTypes::TRANSPARENT:
+				tile->setFillColor(sf::Color(0, 0, 0, 255));
+				break;
+			default:
+				tile->setOutlineColor(sf::Color::Black);
+				break;
+			}
+		}
+
+		tile->render(target);
+	}
 }
 
 

@@ -57,7 +57,7 @@ void SettingsState::initGui()
 		gui::p2pX(72.f, vm), gui::p2pY(81.5f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
 		&this->font, "Back", gui::calcCharSize(vm),
-		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+		sf::Color(236, 239, 241, 200), sf::Color(236, 239, 241, 250), sf::Color(236, 239, 241, 50),
 		sf::Color(100, 100, 100, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	//this->buttons["APPLY"] = new gui::Button(
@@ -79,7 +79,7 @@ void SettingsState::initGui()
 	this->optionsText.setFont(this->font);
 	this->optionsText.setPosition(sf::Vector2f(10.f, 10.f));
 	this->optionsText.setCharacterSize(18);
-	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
+	this->optionsText.setFillColor(sf::Color(238, 238, 238, 255));
 
 	this->optionsText.setString(
 		"To configure the graphics, go to Config/graphics.ini and go to the settings: " 

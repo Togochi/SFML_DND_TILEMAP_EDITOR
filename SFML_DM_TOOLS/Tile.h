@@ -3,7 +3,7 @@
 
 #pragma once
 
-enum TileTypes { DEFAULT = 0, RED, GREEN, BLUE, YELLOW, WHITE, GREY, ORANGE, PURPLE};
+enum TileTypes { DEFAULT = 0, RED, GREEN, BLUE, YELLOW, WHITE, GREY, ORANGE, PURPLE, TRANSPARENT};
 
 class Tile
 {

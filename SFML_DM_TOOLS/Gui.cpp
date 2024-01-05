@@ -3,42 +3,21 @@
 
 const float gui::p2pX(const float perc, const sf::VideoMode& vm)
 {
-	/*
-	 * Converts a percentage value to pixels relative to the current resolution in the x-axis.
-	 *
-	 * @param		float perc				The percentage value.
-	 * @param		sf::VideoMode& vm		The current videomode of the window (resolution).
-	 *
-	 * @return		float					The calculated pixel value.
-	 */
+	/* Converts a percentage value to pixels relative to the current resolution in the x-axis */
 
 	return std::floor(static_cast<float>(vm.width) * (perc / 100.f));
 }
 
 const float gui::p2pY(const float perc, const sf::VideoMode& vm)
 {
-	/*
-	 * Converts a percentage value to pixels relative to the current resolution in the y-axis.
-	 *
-	 * @param		float perc				The percentage value.
-	 * @param		sf::VideoMode& vm		The current videomode of the window (resolution).
-	 *
-	 * @return		float					The calculated pixel value.
-	 */
+	/* Converts a percentage value to pixels relative to the current resolution in the y-axis */
 
 	return std::floor(static_cast<float>(vm.height) * (perc / 100.f));
 }
 
 const unsigned gui::calcCharSize(const sf::VideoMode& vm, const unsigned modifier)
 {
-	/*
-	 * Calculates the character size for text using the current resolution and a constant.
-	 *
-	 * @param		sf::VideoMode& vm		The current videomode of the window (resolution).
-	 * @param		unsigned modifier		Used to modify the character size in a more custom way.
-	 *
-	 * @return		unsigned				The calculated character size value.
-	 */
+	/* Calculates the character size for text using the current resolution and a constant */
 
 	return static_cast<unsigned>((vm.width + vm.height) / modifier);
 }
@@ -65,7 +44,6 @@ gui::Button::Button(float x, float y, float width, float height,
 	this->text.setString(text);
 	this->text.setFillColor(text_idle_color);
 	this->text.setCharacterSize(character_size);
-	//std::cout << this->text.getGlobalBounds().width << "\n";
 	this->text.setPosition(
 		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
 		this->shape.getPosition().y + 10.f
@@ -312,7 +290,7 @@ void gui::DropDownList::render(sf::RenderTarget & target)
 gui::TextureSelector::TextureSelector(float x, float y, float width, float height, 
 	float gridSize, const sf::Texture* texture_sheet,
 	sf::Font& font, std::string text) 
-	: keytimeMax(1.f), keytime(0.f), scrollOffset(0.f, 0.f)
+	: keytimeMax(1.f), keytime(0.f)
 {
 	this->gridSize = gridSize;
 	this->active = false;
@@ -322,21 +300,21 @@ gui::TextureSelector::TextureSelector(float x, float y, float width, float heigh
 
 	this->bounds.setSize(sf::Vector2f(width, height));
 	this->bounds.setPosition(x+ offset, y);
-	this->bounds.setFillColor(sf::Color(50, 50, 50, 100));
+	this->bounds.setFillColor(sf::Color(50, 50, 50, 0));
 	this->bounds.setOutlineThickness(1.f);
-	this->bounds.setOutlineColor(sf::Color(255, 255, 255, 200));
+	this->bounds.setOutlineColor(sf::Color(236, 239, 241, 200));
 
 	this->sheet.setTexture(*texture_sheet);
 	this->sheet.setPosition(x + offset, y);
 
-	//if (this->sheet.getGlobalBounds().width > this->bounds.getGlobalBounds().width)
-	//{
-	//	this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->bounds.getGlobalBounds().width), static_cast<int>(this->sheet.getGlobalBounds().height)));
-	//}
-	//if (this->sheet.getGlobalBounds().height > this->bounds.getGlobalBounds().height)
-	//{
-	//	this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->sheet.getGlobalBounds().width), static_cast<int>(this->bounds.getGlobalBounds().height)));
-	//}
+	if (this->sheet.getGlobalBounds().width > this->bounds.getGlobalBounds().width)
+	{
+		this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->bounds.getGlobalBounds().width), static_cast<int>(this->sheet.getGlobalBounds().height)));
+	}
+	if (this->sheet.getGlobalBounds().height > this->bounds.getGlobalBounds().height)
+	{
+		this->sheet.setTextureRect(sf::IntRect(0, 0, static_cast<int>(this->sheet.getGlobalBounds().width), static_cast<int>(this->bounds.getGlobalBounds().height)));
+	}
 
 	this->selector.setPosition(x + offset, y);
 	this->selector.setSize(sf::Vector2f(gridSize, gridSize));
@@ -350,7 +328,7 @@ gui::TextureSelector::TextureSelector(float x, float y, float width, float heigh
 	this->hide_btn = new gui::Button(
 		200.f, 0.f, 120.f, 50.f,
 		&font, text, 20,
-		sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 250), sf::Color(255, 255, 255, 50),
+		sf::Color(236, 239, 241, 200), sf::Color(236, 239, 241, 250), sf::Color(236, 239, 241, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 	);
 }
@@ -410,11 +388,11 @@ void gui::TextureSelector::update(const sf::Vector2i& mousePosWindow, const floa
 
 	if (!this->hidden)
 	{
-		/*this->active = false;*/
+		this->active = false;
 
-		/*if (this->bounds.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
-		{*/
-			//this->active = true;
+		if (this->bounds.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
+		{
+			this->active = true;
 
 			this->mousePosGrid.x = (mousePosWindow.x - static_cast<int>(this->bounds.getPosition().x)) / static_cast<unsigned>(this->gridSize);
 			this->mousePosGrid.y = (mousePosWindow.y - static_cast<int>(this->bounds.getPosition().y)) / static_cast<unsigned>(this->gridSize);
@@ -427,8 +405,8 @@ void gui::TextureSelector::update(const sf::Vector2i& mousePosWindow, const floa
 			//Update texture rectangle
 			this->textureRect.left = static_cast<int>(this->selector.getPosition().x - this->bounds.getPosition().x);
 			this->textureRect.top = static_cast<int>(this->selector.getPosition().y - this->bounds.getPosition().y);
-		/*}*/
-	}
+			}
+		}
 }
 
 void gui::TextureSelector::render(sf::RenderTarget& target)
@@ -436,7 +414,7 @@ void gui::TextureSelector::render(sf::RenderTarget& target)
 	if (!this->hidden)
 	{
 
-		//target.draw(this->bounds);
+		target.draw(this->bounds);
 		target.draw(this->sheet);
 
 		if (this->active)

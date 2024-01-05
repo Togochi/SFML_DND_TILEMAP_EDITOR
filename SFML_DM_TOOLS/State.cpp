@@ -18,7 +18,7 @@ State::State(StateData* state_data)
 		throw ("ERROR::MAINMENUSTATE::INITFONTS:COULD NOT LOAD FONT");
 	}
 
-	this->textbox1 = new gui::TextBox(20, sf::Color::White, false, 0.f, 0.f, this->font);
+	this->textbox1 = new gui::TextBox(16, sf::Color(238, 238, 238, 255), false, 0.f, 0.f, this->font);
 	this->textbox1->setFont(this->font);
 	
 	this->textbox1->setPosition(sf::Vector2f(10.f, 80.f));

@@ -69,7 +69,7 @@ void EditorState::initPauseMenu()
 	this->pmenu = new PauseMenu(this->stateData->gfxSettings->resolution, this->font);
 
 	this->pmenu->addButton("QUIT", gui::p2pY(74.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Quit");
-	this->pmenu->addButton("LOAD", gui::p2pY(46.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Load texture/map");
+	this->pmenu->addButton("LOAD", gui::p2pY(46.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Load ts/map");
 	this->pmenu->addButton("SAVE", gui::p2pY(37.f, vm), gui::p2pX(13.f, vm), gui::p2pY(6.f, vm), gui::calcCharSize(vm), "Save map as");
 }
 
@@ -91,7 +91,7 @@ void EditorState::initTileGui()
 {
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
-	this->textureSelector = new gui::TextureSelector(5.f, 41.f, 1300.f, 1000.f, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "Texture selection");
+	this->textureSelector = new gui::TextureSelector(5.f, 41.f, this->stateData->gfxSettings->resolution.width, this->stateData->gfxSettings->resolution.height, this->stateData->gridSize, this->tileMap->getTileSheet(), this->font, "Textures");
 }
 
 void EditorState::initButtons()
@@ -159,6 +159,8 @@ std::string EditorState::enumToString(short type)
 		return "ORANGE";
 	case 8:
 		return "PURPLE";
+	case 9:
+		return "TRANSPARENT";
 	default:
 		return "?";
 	}
@@ -254,48 +256,51 @@ void EditorState::upateEditorInput(const float& dt)
 		}
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_FILL"))) && this->getKeytime())
+	if (!this->textbox1->getSelect())
 	{
-		if (this->fill)
-			this->fill = false;
-		else
-			this->fill = true;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INCREASE_TYPE"))) && this->getKeytime())
-	{
-		if (this->type < 8)
-			++this->type;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("DECREASE_TYPE"))) && this->getKeytime())
-	{
-		if (this->type > 0)
-			--this->type;
-	}
-	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TEXT"))) && this->getKeytime())
-	{
-		if (this->charContains)
-			this->charContains = false;
-		else
-			this->charContains = true;
-	}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_FILL"))) && this->getKeytime())
+		{
+			if (this->fill)
+				this->fill = false;
+			else
+				this->fill = true;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INCREASE_TYPE"))) && this->getKeytime())
+		{
+			if (this->type < 9)
+				++this->type;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("DECREASE_TYPE"))) && this->getKeytime())
+		{
+			if (this->type > 0)
+				--this->type;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TEXT"))) && this->getKeytime())
+		{
+			if (this->charContains)
+				this->charContains = false;
+			else
+				this->charContains = true;
+		}
 
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_HIDE_TEXT"))) && this->getKeytime())
-	{
-		if (this->showText)
-			this->showText = false;
-		else
-			this->showText = true;
-	}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_HIDE_TEXT"))) && this->getKeytime())
+		{
+			if (this->showText)
+				this->showText = false;
+			else
+				this->showText = true;
+		}
 
-	//Set lock on / off
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TILE_LOCK"))) && this->getKeytime())
-	{
-		if (this->tileAddLock)
-			this->tileAddLock = false;
-		else
-			this->tileAddLock = true;
+		//Set lock on / off
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_TILE_LOCK"))) && this->getKeytime())
+		{
+			if (this->tileAddLock)
+				this->tileAddLock = false;
+			else
+				this->tileAddLock = true;
+		}
 	}
 
 }

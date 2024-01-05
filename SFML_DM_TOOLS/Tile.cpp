@@ -30,9 +30,9 @@ Tile::Tile(int grid_x, int grid_y, float gridSizeF, const sf::Texture& texture, 
 	if (char_contains)
 	{
 		this->text.setFont(this->font);
-		this->text.setCharacterSize(24);
-		this->text.setFillColor(sf::Color::White);
-		this->text.setPosition((static_cast<float> (grid_x) * gridSizeF)+1.f, static_cast<float> (grid_y) * gridSizeF);
+		this->text.setCharacterSize(16);
+		this->text.setFillColor(sf::Color(238, 238, 238, 255));
+		this->text.setPosition((static_cast<float> (grid_x) * gridSizeF), static_cast<float> (grid_y) * gridSizeF);
 		this->text.setString(this->str);
 	}
 	
@@ -122,13 +122,15 @@ void Tile::update()
 
 void Tile::render(sf::RenderTarget& target)
 {
-		target.draw(this->shape);
-		target.draw(this->contour);
-		if (this->charContains)
+	target.draw(this->shape);
+	target.draw(this->contour);
+
+	if (this->charContains)
+	{
+		if (this->showText)
 		{
-			if (this->showText)
-			{
-				target.draw(this->text);
-			}
+			target.draw(this->text);
 		}
+	}
+	
 }

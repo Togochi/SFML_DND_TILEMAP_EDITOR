@@ -63,28 +63,28 @@ void MainMenuState::initGui()
 		gui::p2pX(15.6f, vm), gui::p2pY(30.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
 		&this->font, "Game mode", gui::calcCharSize(vm),
-		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+		sf::Color(200, 200, 200, 200), sf::Color(236, 239, 241, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	this->buttons["SETTINGS_STATE"] = new gui::Button(
 		gui::p2pX(15.6f, vm), gui::p2pY(40.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
 		&this->font, "Settings", gui::calcCharSize(vm),
-		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+		sf::Color(236, 239, 241, 200), sf::Color(236, 239, 241, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	this->buttons["EDITOR_STATE"] = new gui::Button(
 		gui::p2pX(15.6f, vm), gui::p2pY(50.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
 		&this->font, "Editor mode", gui::calcCharSize(vm),
-		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+		sf::Color(236, 239, 241, 200), sf::Color(236, 239, 241, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	this->buttons["EXIT_STATE"] = new gui::Button(
 		gui::p2pX(15.6f, vm), gui::p2pY(65.f, vm),
 		gui::p2pX(13.f, vm), gui::p2pY(6.f, vm),
 		&this->font, "Quit", gui::calcCharSize(vm),
-		sf::Color(200, 200, 200, 200), sf::Color(255, 255, 255, 255), sf::Color(20, 20, 20, 50),
+		sf::Color(236, 239, 241, 200), sf::Color(236, 239, 241, 255), sf::Color(20, 20, 20, 50),
 		sf::Color(100, 100, 100, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 }
 

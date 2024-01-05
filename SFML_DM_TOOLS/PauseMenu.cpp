@@ -28,7 +28,7 @@ PauseMenu::PauseMenu(sf::VideoMode& vm, sf::Font& font)
 
 	//Init text
 	this->menuText.setFont(font);
-	this->menuText.setFillColor(sf::Color(255, 255, 255, 200));
+	this->menuText.setFillColor(sf::Color(236, 239, 241, 200));
 	this->menuText.setCharacterSize(gui::calcCharSize(vm));
 	this->menuText.setString("MENU");
 	this->menuText.setPosition(
@@ -70,7 +70,7 @@ void PauseMenu::addButton(
 	this->buttons[key] = new gui::Button(
 		x, y, width, height,
 		&this->font, text, char_size,
-		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+		sf::Color(200, 200, 200, 200), sf::Color(236, 239, 241, 250), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 	);
 }
@@ -86,7 +86,7 @@ void PauseMenu::update(const sf::Vector2i& mousePosWindow, const float& dt)
 void PauseMenu::render(sf::RenderTarget & target)
 {
 	target.draw(this->background);
-	target.draw(this->container);
+	//target.draw(this->container);
 
 	for (auto &i : this->buttons)
 	{

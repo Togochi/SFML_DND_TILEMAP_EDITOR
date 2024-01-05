@@ -220,7 +220,7 @@ namespace gui
 				x, y, 120.f, 50.f,
 				&font, "Input mode", 
 				20,
-				sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 250), sf::Color(255, 255, 255, 50),
+				sf::Color(236, 239, 241, 200), sf::Color(236, 239, 241, 250), sf::Color(236, 239, 241, 50),
 				sf::Color(70, 70, 70, 0), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0)
 			);
 
