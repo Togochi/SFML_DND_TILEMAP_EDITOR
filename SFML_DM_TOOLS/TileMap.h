@@ -22,6 +22,9 @@ private:
 	sf::Texture tileSheet;
 
 	std::stack<Tile*> deferredRenderStack;
+
+
+
 	sf::RectangleShape collisionBox;
 
 	//Culling

@@ -1,0 +1,75 @@
+1000 1000
+64
+1
+Resources/Images/Tiles/basic.png
+0 0 0 0 0 0 0 0 0  _
+| 0 1 0 0 0 0 0 0 0  _
+| 0 2 0 0 0 0 0 0 0  _
+| 0 3 0 0 0 0 0 0 0  _
+| 1 0 0 0 0 0 0 1 1 test.txtaw
+| 1 0 0 0 0 0 0 1 1 test.txtaw
+| 1 2 0 0 0 0 0 1 1 test.txtaw
+| 1 3 0 0 0 0 0 1 1 test.txtaw
+| 1 3 0 0 0 0 0 1 1 test.txtaw
+| 2 0 0 0 0 0 0 0 0  _
+| 2 2 0 0 0 0 0 0 0  _
+| 2 3 0 0 0 0 0 0 0  _
+| 2 4 0 0 0 0 0 0 0  _
+| 2 5 0 0 0 0 0 0 0  _
+| 2 6 0 0 0 0 0 0 0  _
+| 2 7 0 0 0 0 0 0 0  _
+| 2 8 0 0 0 0 0 0 0  _
+| 3 0 0 0 0 0 0 0 0  _
+| 3 2 0 0 0 0 0 0 0  _
+| 3 3 0 0 0 0 0 0 0  _
+| 3 4 0 0 0 0 0 0 0  _
+| 3 5 0 0 0 0 0 0 0  _
+| 3 6 0 0 0 0 0 0 0  _
+| 4 0 0 0 0 0 0 0 0  _
+| 4 2 0 0 0 0 0 0 0  _
+| 4 4 0 0 0 0 0 0 0  _
+| 4 5 0 0 0 0 0 1 1  basic.pngl
+| 4 7 0 0 0 0 0 1 1  basic.pngl
+| 4 8 0 0 0 0 0 1 1  basic.pngl
+| 5 1 0 0 0 0 0 0 0  _
+| 5 2 0 0 0 0 0 0 0  _
+| 5 5 0 0 0 0 0 1 1  basic.pngl
+| 5 6 0 0 0 0 0 1 1  basic.pngl
+| 5 8 0 0 0 0 0 1 1  basic.pngl
+| 5 9 0 0 0 0 0 1 1  basic.pngl
+| 6 1 0 0 0 0 0 0 0  _
+| 6 2 0 0 0 0 0 0 0  _
+| 6 4 0 0 0 0 0 1 1  basic.pngl
+| 6 5 0 0 0 0 0 1 1  basic.pngl
+| 6 7 0 0 0 0 0 1 1  basic.pngl
+| 6 8 0 0 0 0 0 1 1  basic.pngl
+| 6 9 0 0 0 0 0 1 1  basic.pngl
+| 7 1 0 0 0 0 0 0 1  _
+| 7 2 0 0 0 0 0 0 0  _
+| 7 4 0 0 0 0 0 1 1  basic.pngl
+| 7 5 0 0 0 0 0 1 1  basic.pngl
+| 7 6 0 0 0 0 0 1 1  basic.pngl
+| 7 7 0 0 0 0 0 1 1  basic.pngl
+| 7 8 0 0 0 0 0 1 1  basic.pngl
+| 7 9 0 0 0 0 0 1 1  basic.pngl
+| 8 2 0 0 0 0 0 0 0  _
+| 8 5 0 0 0 0 0 1 1  basic.pngl
+| 8 6 0 0 0 0 0 1 1  basic.pngl
+| 8 7 0 0 0 0 0 1 1  basic.pngl
+| 8 8 0 0 0 0 0 1 1  basic.pngl
+| 8 9 0 0 0 0 0 1 1  basic.pngl
+| 9 1 0 0 0 0 0 1 0  basic.pngl
+| 9 2 0 0 0 0 0 1 0  basic.pngl
+| 9 5 0 0 0 0 0 1 1  basic.pngl
+| 9 6 0 0 0 0 0 1 1  basic.pngl
+| 9 8 0 0 0 0 0 1 1  basic.pngl
+| 9 9 0 0 0 0 0 1 1  basic.pngl
+| 10 1 0 0 0 0 0 1 1  basic.pngl
+| 10 2 0 0 0 0 0 1 1  basic.pngl
+| 10 3 0 0 0 0 0 0 0  _
+| 10 4 0 0 0 0 0 0 0  _
+| 10 5 0 0 0 0 0 1 1  basic.pngl
+| 10 7 0 0 0 0 0 1 1  basic.pngl
+| 10 8 0 0 0 0 0 1 1  basic.pngl
+| 10 9 0 0 0 0 0 1 1  basic.pngl
+| 

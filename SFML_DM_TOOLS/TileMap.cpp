@@ -98,7 +98,15 @@ const bool TileMap::tileEmpty(const int x, const int y, const int z) const
 
 const bool TileMap::getShowText(const int x, const int y, const int z, const int k) const
 {
-	return this->map[x][y][z][k]->getShowText();
+
+	if (x >= 0 && x < this->maxSizeWorldF.x &&
+		y >= 0 && y < this->maxSizeWorldF.y &&
+		z >= 0 && z < this->layers)
+	{
+		return this->map[x][y][z][k]->getShowText();
+	}
+
+	return false;
 }
 
 //Accesors
@@ -128,7 +136,12 @@ const int TileMap::getLayerSize(const int x, const int y, const int layer) const
 
 void TileMap::setShowText(const int x, const int y, const int z, const int k, bool show)
 {
-	this->map[x][y][z][k]->setShowText(show);
+	if (x >= 0 && x < this->maxSizeWorldF.x &&
+		y >= 0 && y < this->maxSizeWorldF.y &&
+		z >= 0 && z < this->layers)
+	{
+		this->map[x][y][z][k]->setShowText(show);
+	}
 }
 
 void TileMap::saveToFile(const std::string file_name)
@@ -266,30 +279,29 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 
 	this->layer = 0;
 
-	this->fromX = gridPosition.x - 50;
+	this->fromX = gridPosition.x - 100;
 	if (this->fromX < 0)
 		this->fromX = 0;
 	else if (this->fromX > this->maxSizeWorldGrid.x)
 		this->fromX = this->maxSizeWorldGrid.x;
 
-	this->toX = gridPosition.x + 50;
+	this->toX = gridPosition.x + 100;
 	if (this->toX < 0)
 		this->toX = 0;
 	else if (this->toX > this->maxSizeWorldGrid.x)
 		this->toX = this->maxSizeWorldGrid.x;
 
-	this->fromY = gridPosition.y - 50;
+	this->fromY = gridPosition.y - 100;
 	if (this->fromY < 0)
 		this->fromY = 0;
 	else if (this->fromY > this->maxSizeWorldGrid.y)
 		this->fromY = this->maxSizeWorldGrid.y;
 
-	this->toY = gridPosition.y + 50;
+	this->toY = gridPosition.y + 100;
 	if (this->toY < 0)
 		this->toY = 0;
 	else if (this->toY > this->maxSizeWorldGrid.y)
 		this->toY = this->maxSizeWorldGrid.y;
-
 
 	std::vector<Tile*> charTiles;
 
@@ -379,7 +391,9 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 						}
 
 					}
+					
 					this->map[x][y][this->layer][k]->render(target);
+					
 				}
 			}
 		}
@@ -450,7 +464,7 @@ void TileMap::render(sf::RenderTarget& target, const sf::Vector2i& gridPosition,
 				break;
 			}
 		}
-
+		
 		tile->render(target);
 	}
 }
